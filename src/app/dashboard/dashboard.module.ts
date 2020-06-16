@@ -7,19 +7,25 @@ import { GuestModeComponent } from './guest-mode/guest-mode.component';
 
 
 
+
 @NgModule({
-  declarations: [DashboardComponent, QuestionsComponent, GuestModeComponent],
+  declarations: [
+    DashboardComponent,
+    QuestionsComponent,
+    GuestModeComponent
+  ],
   imports: [
     CommonModule,
     RouterModule.forChild([
-        {
-            path: '', 
-            component: DashboardComponent,
-            children: [
-                { path: 'questions', component: QuestionsComponent },
-                { path: 'guestmode', component: GuestModeComponent }
-            ]
-        }
+      {
+        path: '',
+        component: DashboardComponent,
+        children: [
+          { path: '', component: QuestionsComponent },
+          { path: 'questions', component: QuestionsComponent },
+          { path: 'guestmode', component: GuestModeComponent }
+        ]
+      }
     ])
   ]
 })
