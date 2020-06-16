@@ -5,6 +5,7 @@ import { NicknameComponent } from './nickname/nickname.component';
 
 const routes: Routes = [
   { path: 'nickname', component: NicknameComponent },
+  { path: 'dashboard', loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule) },
   { path: '', pathMatch: 'full', redirectTo: 'nickname' }
 ];
 
