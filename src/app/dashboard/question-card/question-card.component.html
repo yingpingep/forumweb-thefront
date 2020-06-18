@@ -1,1 +1,39 @@
-<p>question-card works!</p>
+<div class="d-flex mt-2 mb-2" style="width: 100%">
+  <div style="width: 100%;">
+
+
+    <div style="height: 40px; width: 40px; font-size: 20px;"
+      class="justify-content-center align-items-center d-flex">
+      <ng-content></ng-content>
+    </div>
+
+    <div class="pl-3 pr-3 mt-1">
+      <input style="border: 0; width: 100%; font-size: 30px;" placeholder="題目">
+      <div style="border-bottom: 1px solid #888;"></div>
+    </div>
+
+    <div class="btn-group btn-group-toggle d-flex m-3" data-toggle="buttons">
+      <label class="btn btn-outline-secondary active">
+        <input type="radio" name="options" id="option1" autocomplete="off" checked=""> 單選
+      </label>
+      <label class="btn btn-outline-secondary">
+        <input type="radio" name="options" id="option2" autocomplete="off"> 多選
+      </label>
+      <label class="btn btn-outline-secondary">
+        <input type="radio" name="options" id="option3" autocomplete="off"> 簡答
+      </label>
+    </div>
+
+    <ng-container>
+      <div class="pl-3 pr-3">
+        <input style="border: 0; width: 100%; font-size: 24px;" placeholder="選項 1">
+        <div class="mb-2" style="border-bottom: 1px solid #888;"></div>
+        <input style="border: 0; width: 100%; font-size: 24px;" placeholder="選項 2">
+        <div class="mb-2" style="border-bottom: 1px solid #888;"></div>
+        <input style="border: 0; width: 100%; font-size: 24px;" placeholder="選項 3">
+        <div class="mb-2" style="border-bottom: 1px solid #888;"></div>
+      </div>
+    </ng-container>
+
+  </div>
+</div>

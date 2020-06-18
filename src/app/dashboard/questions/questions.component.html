@@ -1,8 +1,7 @@
 <div class="container mt-3">
   <div class="d-flex justify-content-center align-itmes-center">
     <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
-      <div class="example-box" *ngFor="let movie of movies" cdkDrag>{{movie}}</div>
+      <app-question-card class="card mt-3 p-1" *ngFor="let movie of movies; let i = index;" cdkDrag>Q{{i + 1}}</app-question-card>
     </div>
-
   </div>
 </div>
