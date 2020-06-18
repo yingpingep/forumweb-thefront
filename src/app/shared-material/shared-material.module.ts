@@ -4,7 +4,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 
 export const sharedModules = [
   DragDropModule
-]
+];
 
 @NgModule({
   declarations: [],

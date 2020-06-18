@@ -4,6 +4,8 @@ import { DashboardComponent } from './dashboard.component';
 import { RouterModule, Routes } from '@angular/router';
 import { QuestionsComponent } from './questions/questions.component';
 import { GuestModeComponent } from './guest-mode/guest-mode.component';
+import { QuestionCardComponent } from './question-card/question-card.component';
+import { SharedMaterialModule } from '../shared-material/shared-material.module';
 
 export const dashboardRoutes: Routes = [
   {
@@ -25,11 +27,13 @@ export const dashboardRoutes: Routes = [
   declarations: [
     DashboardComponent,
     QuestionsComponent,
-    GuestModeComponent
+    GuestModeComponent,
+    QuestionCardComponent
   ],
   imports: [
     CommonModule,
-    RouterModule.forChild(dashboardRoutes)
+    RouterModule.forChild(dashboardRoutes),
+    SharedMaterialModule
   ]
 })
 export class DashboardModule { }
