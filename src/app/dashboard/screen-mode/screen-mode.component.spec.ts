@@ -1,25 +1,24 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { ScreenModeComponent } from './screen-mode.component';
+import { ScreenModeComponent } from './screen-mode.component'
 
 describe('ScreenModeComponent', () => {
-  let component: ScreenModeComponent;
-  let fixture: ComponentFixture<ScreenModeComponent>;
+  let component: ScreenModeComponent
+  let fixture: ComponentFixture<ScreenModeComponent>
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ScreenModeComponent ]
-    })
-    .compileComponents();
-  }));
+      declarations: [ScreenModeComponent],
+    }).compileComponents()
+  }))
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ScreenModeComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(ScreenModeComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})
