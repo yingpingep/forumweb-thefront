@@ -1,0 +1,17 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col d-flex justify-content-center align-items-center background">
+          <div class="row flex-column">
+            <p style="margin-top: 165px; font-size: 65px; color: white; text-align: center;">Welcome</p>
+            <form class="form-group" #tForm="ngForm" [formGroup]="nickForm">
+              <div class="input-group">
+                <input type="text" placeholder="correct value" class="form-control" formControlName="nickName" [ngClass]="{'is-invalid': tForm.submitted && nickName.errors }">
+                <div class="input-group-append">
+                  <button type="submit" class="btn btn-primary" (click)="onSubmit()">Primary</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+    </div>
+</div>

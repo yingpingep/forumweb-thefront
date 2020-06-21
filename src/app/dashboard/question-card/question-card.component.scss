@@ -1,0 +1,26 @@
+.question-number {
+  font-size: 20px;
+}
+
+.option {
+  .option-input {
+    border: 0;
+    width: 100%;
+    font-size: 24px;
+  }
+
+  .plus-button {
+    background-color: #F3969A;
+  }
+}
+
+.question-title {
+  border: 0;
+  width: 100%;
+  font-size: 30px;
+}
+
+.bottom-line {
+  margin-top: 1px;
+  border-bottom: 2px solid #888;
+}
