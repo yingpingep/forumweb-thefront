@@ -11,7 +11,6 @@ export class QuestionCardComponent implements OnInit, AfterViewInit {
   @ViewChildren('optionInput') optionInputs: ElementRef<HTMLInputElement>[];
   @Input() questionData: Question;
   @Output() removeQuestion = new EventEmitter<string>();
-
   get questionTitleInput() {
     return this.questionTitleRef.nativeElement;
   }
@@ -36,6 +35,8 @@ export class QuestionCardComponent implements OnInit, AfterViewInit {
 
   optionList: Option[];
 
+  private _optionCount = 0;
+
   constructor(private renderer: Renderer2, private elementRef: ElementRef) { }
 
   ngOnInit(): void {
@@ -51,13 +52,13 @@ export class QuestionCardComponent implements OnInit, AfterViewInit {
   }
 
   optionTitleChange(event: Event, index: number) {
-    const option = this.optionList.find((_, i) => i === index);
+    const option = this.optionList.find(v => v.index === index);
     option.title = (event.target as HTMLInputElement).value;
   }
 
   addNewOption() {
     this.optionList.push({
-      index: this.optionList.length,
+      index: this._optionCount++,
       title: ''
     });
   }
@@ -77,6 +78,11 @@ export class QuestionCardComponent implements OnInit, AfterViewInit {
 
   removeQuestionClick() {
     this.removeQuestion.emit(this.questionData.id);
+  }
+
+  removeOptionClick(removeOptionIndex: number) {
+    this.optionList = this.optionList.filter(v => v.index !== removeOptionIndex);
+    this.questionData.options = this.optionList;
   }
 
   private _switchModeTo(questionMode: QuestionMode) {

@@ -4,7 +4,7 @@
       <div class="pl-3">
         <ng-content></ng-content>
       </div>
-      <button mat-icon-button class="plus-button" (click)="removeQuestionClick()">
+      <button mat-icon-button (click)="removeQuestionClick()">
         <mat-icon>close</mat-icon>
       </button>
     </div>
@@ -34,13 +34,18 @@
 
     <ng-container hidden *ngIf="(mode | async) !== 'answer'">
       <div class="pl-3 pr-3 option">
-        <ng-container *ngFor="let option of optionList;">
-          <input #optionInput
-            class="option-input"
-            placeholder="選項 {{option.index + 1}}"
-            (change)="optionTitleChange($event, option.index)"
-            (keyup.enter)="focusToNext(option.index)"
-            value="{{option.title}}">
+        <ng-container *ngFor="let option of optionList; let i = index;">
+          <div class="d-flex justify-content-between">
+            <input #optionInput
+              class="option-input"
+              placeholder="選項 {{i + 1}}"
+              (change)="optionTitleChange($event, option.index)"
+              (keyup.enter)="focusToNext(option.index)"
+              value="{{option.title}}">
+            <button mat-icon-button (click)="removeOptionClick(option.index)">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
           <div class="mb-2 bottom-line"></div>
         </ng-container>
         <button mat-mini-fab class="plus-button" (click)="addNewOption()">

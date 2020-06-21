@@ -11,19 +11,7 @@ export class QuestionsComponent implements OnInit {
 
   constructor() { }
 
-  questions: Partial<Question[]> = [
-    {
-      id: uuidV4(),
-      title: '',
-      mode: 'single',
-      options: [
-        {
-          index: 0,
-          title: 'errrr'
-        }
-      ]
-    }
-  ];
+  questions: Partial<Question[]> = [ ];
   ngOnInit(): void {
   }
 
