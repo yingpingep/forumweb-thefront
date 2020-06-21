@@ -1,7 +1,27 @@
-.custom-control-label {
+.question-number {
+  height: 40px;
+  width: 40px;
+  font-size: 20px;
+}
+
+.single {
+  .single-input {
+    border: 0;
+    width: 100%;
+    font-size: 24px;
+  }
+
+  .plus-button {
+    background-color: #F3969A;
+  }
+}
+
+.question-title {
+  border: 0;
+  width: 100%;
   font-size: 30px;
 }
 
-.custom-control-input {
-  font-size: 30px;
+.bottom-line {
+  border-bottom: 1px solid #888;
 }
