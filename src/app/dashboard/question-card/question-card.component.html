@@ -1,18 +1,30 @@
 <div class="d-flex mt-2 mb-2" style="width: 100%">
   <div style="width: 100%;">
-    <div class="question-number justify-content-center align-items-center d-flex">
-      <ng-content></ng-content>
+    <div class="question-number justify-content-between align-items-center d-flex">
+      <div class="pl-3">
+        <ng-content></ng-content>
+      </div>
+      <button mat-icon-button class="plus-button" (click)="removeQuestionClick()">
+        <mat-icon>close</mat-icon>
+      </button>
     </div>
 
     <div class="pl-3 pr-3 mt-1">
-      <input class="question-title" placeholder="題目">
+      <input
+        #questionTitleRef
+        class="question-title"
+        placeholder="題目"
+        (change)="questionTitleChange()"
+      >
       <div class="bottom-line"></div>
     </div>
 
     <div class="btn-group btn-group-toggle d-flex m-3" questionMode data-toggle="buttons">
       <ng-container *ngFor="let questionMode of questionModes">
         <label class="btn btn-outline-secondary" [ngClass]="{'active': (mode | async) === questionMode.id}">
-          <input type="radio" name="questionMode"
+          <input
+            type="radio"
+            name="questionMode"
             id="{{questionMode.id}}"
             autocomplete="off"
             (click)="questionModeInputClick(questionMode.id)"> {{questionMode.text}}
@@ -21,13 +33,14 @@
     </div>
 
     <ng-container hidden *ngIf="(mode | async) !== 'answer'">
-      <div class="pl-3 pr-3 single">
+      <div class="pl-3 pr-3 option">
         <ng-container *ngFor="let option of optionList;">
-          <input #singleInput
-            class="single-input"
+          <input #optionInput
+            class="option-input"
             placeholder="選項 {{option.index + 1}}"
             (change)="optionTitleChange($event, option.index)"
-            (keyup.enter)="focusToNext(option.index)">
+            (keyup.enter)="focusToNext(option.index)"
+            value="{{option.title}}">
           <div class="mb-2 bottom-line"></div>
         </ng-container>
         <button mat-mini-fab class="plus-button" (click)="addNewOption()">

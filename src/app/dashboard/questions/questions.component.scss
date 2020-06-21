@@ -1,5 +1,9 @@
-.example-list {
+.question-list {
   width: 100%;
+
+  &.cdk-drop-list-dragging .card:not(.cdk-drag-placeholder) {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+  }
 }
 
 .card {
@@ -11,7 +15,6 @@
   background: white;
   font-size: 14px;
 }
-
 
 .cdk-drag-preview {
   box-sizing: border-box;
@@ -26,13 +29,5 @@
 }
 
 .cdk-drag-animating {
-  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
-}
-
-.card:last-child {
-  border: none;
-}
-
-.example-list.cdk-drop-list-dragging .card:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }

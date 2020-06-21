@@ -1,5 +1,7 @@
 declare type QuestionMode = 'single' | 'multiple' | 'answer';
 declare interface Question {
+  readonly id: string,
+  title: string,
   mode: QuestionMode,
   options?: Option[]
 }

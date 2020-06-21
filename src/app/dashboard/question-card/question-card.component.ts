@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChildren, ElementRef, Renderer2, AfterViewInit, Input } from '@angular/core';
+import { Component, OnInit, ViewChildren, ElementRef, Renderer2, AfterViewInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
@@ -7,11 +7,18 @@ import { BehaviorSubject } from 'rxjs';
   styleUrls: ['./question-card.component.scss']
 })
 export class QuestionCardComponent implements OnInit, AfterViewInit {
-
-  @ViewChildren('singleInput') singleInputs: ElementRef<HTMLInputElement>[];
+  @ViewChild('questionTitleRef') questionTitleRef: ElementRef<HTMLInputElement>;
+  @ViewChildren('optionInput') optionInputs: ElementRef<HTMLInputElement>[];
   @Input() questionData: Question;
+  @Output() removeQuestion = new EventEmitter<string>();
+
+  get questionTitleInput() {
+    return this.questionTitleRef.nativeElement;
+  }
   mode = new BehaviorSubject<QuestionMode>('single');
-  nativeElement: Element;
+  get nativeElement() {
+    return this.elementRef.nativeElement;
+  }
   questionModes: QuestionConfig[] = [
     {
       id: 'single',
@@ -27,25 +34,20 @@ export class QuestionCardComponent implements OnInit, AfterViewInit {
     }
   ];
 
-  optionList: Option[] = [
-    {
-      index: 0,
-      title: ''
-    }
-  ];
+  optionList: Option[];
 
   constructor(private renderer: Renderer2, private elementRef: ElementRef) { }
 
   ngOnInit(): void {
-    this.nativeElement = this.elementRef.nativeElement;
-    this.questionData = {
-      mode: this.mode.value,
-      options: this.optionList
-    };
+    this.optionList = this.questionData.options || [];
   }
 
   ngAfterViewInit(): void {
     this._setInputChecked(this.mode.value);
+  }
+
+  questionTitleChange() {
+    this.questionData.title = this.questionTitleInput.value;
   }
 
   optionTitleChange(event: Event, index: number) {
@@ -61,7 +63,7 @@ export class QuestionCardComponent implements OnInit, AfterViewInit {
   }
 
   focusToNext(index: number) {
-    const theInput = (this.singleInputs.find((_, i) => i === index + 1) || {}).nativeElement;
+    const theInput = (this.optionInputs.find((_, i) => i === index + 1) || {}).nativeElement;
 
     if (theInput) {
       theInput.focus();
@@ -73,16 +75,12 @@ export class QuestionCardComponent implements OnInit, AfterViewInit {
     this._switchModeTo(id as QuestionMode);
   }
 
-  private _switchModeTo(questionMode: QuestionMode) {
-    this.mode.next(questionMode);
+  removeQuestionClick() {
+    this.removeQuestion.emit(this.questionData.id);
   }
 
-  private _updateQuestionData() {
-    const currentMode = this.mode.value;
-    this.questionData.mode = currentMode;
-    this.questionData.options = currentMode === 'answer'
-      ? undefined
-      : this.optionList;
+  private _switchModeTo(questionMode: QuestionMode) {
+    this.mode.next(questionMode);
   }
 
   /**
