@@ -7,7 +7,12 @@ const routes: Routes = [
   {
     path: 'dashboard',
     loadChildren: () =>
-      import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
+      import('./dashboard/dashboard.module').then((m) => m.DashboardModule)
+  },
+  {
+    path: 'guest',
+    loadChildren: () =>
+      import('./guest/guest.module').then((m) => m.GuestModule)
   },
   { path: '', pathMatch: 'full', redirectTo: 'nickname' },
 ]
