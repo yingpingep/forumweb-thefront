@@ -8,3 +8,11 @@ button:focus {
 input:focus {
   outline: none;
 }
+
+.base-background {
+  height: 100vh;
+  overflow-y: hidden;
+  background-size: cover;
+  background-image: url(./assets/key_vision.jpg);
+  background-position: center;
+}

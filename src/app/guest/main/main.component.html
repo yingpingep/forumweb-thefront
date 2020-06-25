@@ -1,13 +1,4 @@
-<div
-  class="container-fluid"
-  style="
-    height: 100vh;
-    overflow-y: hidden;
-    background-size: cover;
-    background-image: url(https://unsplash.com/photos/w5Ix_iA0O1c/download?force=true&w=1920);
-    background-position: center;
-  "
->
+<div class="container-fluid base-background">
   <div style="position: relative; top: 20%;">
     <div class="card mb-3">
       <h3 class="card-header">
@@ -25,8 +16,7 @@
               <textarea
                 (blur)="rollToFirst($event)"
                 class="form-control"
-                id="exampleTextarea"
-                style="resize: none;"
+                id="answerText"
                 rows="5"
               ></textarea>
             </div>

@@ -18,7 +18,7 @@ export class QuestionsComponent implements OnInit {
   }
 
   addNewQuestion() {
-    this.questions.push(this._questionFactory());
+    this.questions.push(this.questionFactory());
   }
 
   removeQuestion(removeId: string) {
@@ -27,7 +27,7 @@ export class QuestionsComponent implements OnInit {
     );
   }
 
-  private _questionFactory(): Question {
+  private questionFactory(): Question {
     return {
       id: uuidV4(),
       title: '',
