@@ -6,10 +6,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements OnInit {
+  numberOfQuestion = 'Q1';
   question: Question = {
     id: '1',
     title: '測試用的題目 1234567',
-    mode: 'multiple',
+    mode: 'answer',
     options: [
       {
         index: 0,
@@ -29,7 +30,21 @@ export class MainComponent implements OnInit {
       },
     ],
   };
+
+  mode: Record<QuestionMode, string> = {
+    single: '單選題',
+    multiple: '多選題',
+    answer: '簡答題',
+  };
+
+  get optionType() {
+    return this.question.mode === 'single' ? 'radio' : 'checkbox';
+  }
   constructor() {}
 
   ngOnInit(): void {}
+
+  rollToFirst(event: Event) {
+    window.scrollTo(0, 0);
+  }
 }

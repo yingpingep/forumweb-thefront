@@ -8,15 +8,55 @@
     background-position: center;
   "
 >
-  <div style="transform: translateY(50%);">
-    <ng-container [ngSwitch]="question.mode">
-      <app-answer *ngSwitchCase="'answer'"> </app-answer>
-      <app-multiple *ngSwitchCase="'multiple'" [question]="question">
-        Q1
-      </app-multiple>
-      <app-single *ngSwitchDefault [question]="question">
-        Q1
-      </app-single>
-    </ng-container>
+  <div style="position: relative; top: 20%;">
+    <div class="card mb-3">
+      <h3 class="card-header">
+        {{ numberOfQuestion }}
+      </h3>
+      <div class="card-body">
+        <h5 class="card-title">{{ question.title }}</h5>
+        <h6 class="card-subtitle text-muted">{{ mode[question.mode] }}</h6>
+      </div>
+
+      <ng-container [ngSwitch]="question.mode">
+        <ng-container *ngSwitchCase="'answer'">
+          <div class="card-body">
+            <div class="form-group">
+              <textarea
+                (blur)="rollToFirst($event)"
+                class="form-control"
+                id="exampleTextarea"
+                style="resize: none;"
+                rows="5"
+              ></textarea>
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-container *ngSwitchDefault>
+          <div
+            class="btn-group-vertical btn-group-toggle"
+            data-toggle="buttons"
+          >
+            <ng-container *ngFor="let option of question.options">
+              <label class="btn btn-secondary">
+                <input
+                  [type]="optionType"
+                  name="options"
+                  id="{{ option.index }}"
+                  autocomplete="off"
+                />
+                {{ option.text }}
+              </label>
+              <div class="mb-2"></div>
+            </ng-container>
+          </div>
+        </ng-container>
+      </ng-container>
+
+      <div class="card-footer text-muted">
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
   </div>
 </div>
