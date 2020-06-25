@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-multiple',
@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./multiple.component.scss'],
 })
 export class MultipleComponent implements OnInit {
+  @Input() question: Question;
   constructor() {}
 
   ngOnInit(): void {}

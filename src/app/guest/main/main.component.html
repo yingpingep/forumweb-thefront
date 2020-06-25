@@ -9,8 +9,14 @@
   "
 >
   <div style="transform: translateY(50%);">
-    <app-single [question]="question">
-      Q1
-    </app-single>
+    <ng-container [ngSwitch]="question.mode">
+      <app-answer *ngSwitchCase="'answer'"> </app-answer>
+      <app-multiple *ngSwitchCase="'multiple'" [question]="question">
+        Q1
+      </app-multiple>
+      <app-single *ngSwitchDefault [question]="question">
+        Q1
+      </app-single>
+    </ng-container>
   </div>
 </div>

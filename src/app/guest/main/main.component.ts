@@ -9,7 +9,7 @@ export class MainComponent implements OnInit {
   question: Question = {
     id: '1',
     title: '測試用的題目 1234567',
-    mode: 'single',
+    mode: 'multiple',
     options: [
       {
         index: 0,
