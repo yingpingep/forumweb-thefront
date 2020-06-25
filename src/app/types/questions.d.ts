@@ -1,26 +1,26 @@
-declare type QuestionMode = 'single' | 'multiple' | 'answer'
+declare type QuestionMode = 'single' | 'multiple' | 'answer';
 declare interface Question {
-  readonly id: string
-  title: string
-  mode: QuestionMode
-  options?: Option[]
+  readonly id: string;
+  title: string;
+  mode: QuestionMode;
+  options?: Option[];
 }
 
 declare interface Option {
   /**
    * Index in question list.
    */
-  index: number
+  index: number;
   /**
    * Question title.
    */
-  title: string
+  text: string;
 }
 
 declare interface QuestionConfig {
-  id: QuestionMode
+  id: QuestionMode;
   /**
    * Display text.
    */
-  text: string
+  text: string;
 }
