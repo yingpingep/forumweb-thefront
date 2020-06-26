@@ -2,20 +2,18 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MainComponent } from './main/main.component';
 import { RouterModule } from '@angular/router';
-import { SingleComponent } from './single/single.component';
-import { MultipleComponent } from './multiple/multiple.component';
-import { AnswerComponent } from './answer/answer.component';
 import { sharedModules } from '../shared-material/shared-material.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 const routes = [{ path: '', component: MainComponent }];
 
 @NgModule({
-  declarations: [
-    MainComponent,
-    SingleComponent,
-    MultipleComponent,
-    AnswerComponent,
+  declarations: [MainComponent],
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes),
+    ReactiveFormsModule,
+    sharedModules,
   ],
-  imports: [CommonModule, RouterModule.forChild(routes), sharedModules],
 })
 export class GuestModule {}

@@ -44,14 +44,14 @@ export class QuestionCardComponent implements OnInit, AfterViewInit {
     },
   ];
 
-  optionList: Option[];
+  optionList: AnswerOption[];
 
   private optionCount = 0;
 
   constructor(private renderer: Renderer2, private elementRef: ElementRef) {}
 
   ngOnInit(): void {
-    this.optionList = this.questionData.options || [];
+    this.optionList = this.questionData.answerOptions || [];
   }
 
   ngAfterViewInit(): void {
@@ -96,7 +96,7 @@ export class QuestionCardComponent implements OnInit, AfterViewInit {
     this.optionList = this.optionList.filter(
       (v) => v.index !== removeOptionIndex
     );
-    this.questionData.options = this.optionList;
+    this.questionData.answerOptions = this.optionList;
   }
 
   private _switchModeTo(questionMode: QuestionMode) {

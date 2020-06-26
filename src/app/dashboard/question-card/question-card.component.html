@@ -53,7 +53,7 @@
               placeholder="選項 {{ i + 1 }}"
               (change)="optionTitleChange($event, option.index)"
               (keyup.enter)="focusToNext(option.index)"
-              value="{{ option.title }}"
+              value="{{ option.text }}"
             />
             <button mat-icon-button (click)="removeOptionClick(option.index)">
               <mat-icon>close</mat-icon>

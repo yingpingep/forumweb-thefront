@@ -1,16 +1,53 @@
-<div
-  class="container-fluid"
-  style="
-    height: 100vh;
-    overflow-y: hidden;
-    background-size: cover;
-    background-image: url(https://unsplash.com/photos/w5Ix_iA0O1c/download?force=true&w=1920);
-    background-position: center;
-  "
->
-  <div style="transform: translateY(50%);">
-    <app-single [question]="question">
-      Q1
-    </app-single>
+<div class="container-fluid base-background">
+  <div style="position: relative; top: 20%;">
+    <div class="card mb-3">
+      <h3 class="card-header">
+        {{ numberOfQuestion }}
+      </h3>
+      <div class="card-body">
+        <h5 class="card-title">{{ question.title }}</h5>
+        <h6 class="card-subtitle text-muted">{{ mode[question.mode] }}</h6>
+      </div>
+
+      <ng-container [ngSwitch]="question.mode">
+        <ng-container *ngSwitchCase="'answer'">
+          <div class="card-body">
+            <div class="form-group">
+              <textarea
+                (blur)="rollToFirst($event)"
+                (change)="answerTextareaChange($event)"
+                class="form-control"
+                id="answerText"
+                rows="5"
+              ></textarea>
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-container *ngSwitchDefault>
+          <div class="btn-group-vertical btn-group-toggle">
+            <ng-container *ngFor="let option of question.answerOptions">
+              <label #optionRefs class="btn btn-secondary">
+                <input
+                  [type]="optionType"
+                  (change)="optionChange(option)"
+                  name="options"
+                  id="{{ 'option' + option.index }}"
+                  autocomplete="off"
+                />
+                {{ option.text }}
+              </label>
+              <div class="mb-2"></div>
+            </ng-container>
+          </div>
+        </ng-container>
+      </ng-container>
+
+      <div class="card-footer text-muted">
+        <button type="button" class="btn btn-primary" (click)="submit()">
+          送出
+        </button>
+      </div>
+    </div>
   </div>
 </div>
