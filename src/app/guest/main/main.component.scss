@@ -1,3 +1,16 @@
 #answerText {
   resize: none;
 }
+
+.btn-secondary {
+  &:hover {
+    background-color: #f3969a;
+    border-color: #f3969a;
+  }
+}
+
+.btn-group-vertical {
+  :first-child {
+    border-radius: 0;
+  }
+}
