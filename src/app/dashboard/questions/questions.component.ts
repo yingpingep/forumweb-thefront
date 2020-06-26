@@ -32,7 +32,7 @@ export class QuestionsComponent implements OnInit {
       id: uuidV4(),
       title: '',
       mode: 'single',
-      options: [],
+      answerOptions: [],
     };
   }
 }

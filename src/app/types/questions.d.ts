@@ -3,10 +3,10 @@ declare interface Question {
   readonly id: string;
   title: string;
   mode: QuestionMode;
-  options?: Option[];
+  answerOptions?: AnswerOption[];
 }
 
-declare interface Option {
+declare interface AnswerOption {
   /**
    * Index in question list.
    */

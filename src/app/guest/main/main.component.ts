@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-main',
@@ -11,7 +12,7 @@ export class MainComponent implements OnInit {
     id: '1',
     title: '測試用的題目 1234567',
     mode: 'answer',
-    options: [
+    answerOptions: [
       {
         index: 0,
         text: 'A',
@@ -40,7 +41,7 @@ export class MainComponent implements OnInit {
   get optionType() {
     return this.question.mode === 'single' ? 'radio' : 'checkbox';
   }
-  constructor() {}
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {}
 
