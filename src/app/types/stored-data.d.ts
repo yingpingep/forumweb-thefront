@@ -8,10 +8,10 @@ declare type SaveResponse = {
 
 declare type RetriveResponse = {
   status: Status;
-  data: QueryList<Question>;
+  data: Question[];
 };
 
 declare interface StoredData {
-  save: (data: Question[]) => Observable<SaveResponse>;
-  retrive: () => Observable<RetriveResponse>;
+  prepareAndSave(data: Question[]): Observable<SaveResponse>;
+  retrive(): Observable<RetriveResponse>;
 }

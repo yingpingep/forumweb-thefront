@@ -12,7 +12,21 @@
       </app-question-card>
     </div>
   </div>
-  <button type="button" class="btn btn-primary mb-3" (click)="addNewQuestion()">
-    新增題目
-  </button>
+  <div class="d-flex">
+    <button
+      type="button"
+      class="btn btn-primary mb-3"
+      (click)="addNewQuestion()"
+    >
+      新增題目
+    </button>
+    <div class="m-1"></div>
+    <button
+      type="button"
+      class="btn btn-primary mb-3"
+      (click)="saveQuestions()"
+    >
+      儲存
+    </button>
+  </div>
 </div>

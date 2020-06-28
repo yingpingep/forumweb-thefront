@@ -19,6 +19,7 @@ export class MainComponent implements OnInit, AfterViewInit {
   numberOfQuestion = 'Q1';
   question: Question = {
     id: '1',
+    number: '0',
     title: '測試用的題目 1234567',
     mode: 'multiple',
     answerOptions: [
