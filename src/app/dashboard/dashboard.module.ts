@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, InjectionToken } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DashboardComponent } from './dashboard.component';
 import { RouterModule, Routes } from '@angular/router';
@@ -6,6 +6,8 @@ import { QuestionsComponent } from './questions/questions.component';
 import { GuestModeComponent } from './guest-mode/guest-mode.component';
 import { QuestionCardComponent } from './question-card/question-card.component';
 import { SharedMaterialModule } from '../shared-material/shared-material.module';
+import { LocalStoredService } from './services/local-stored.service';
+import { StoredService } from './services/stroed-service';
 
 export const dashboardRoutes: Routes = [
   {
@@ -37,6 +39,12 @@ export const dashboardRoutes: Routes = [
     CommonModule,
     RouterModule.forChild(dashboardRoutes),
     SharedMaterialModule,
+  ],
+  providers: [
+    {
+      provide: StoredService,
+      useClass: LocalStoredService,
+    },
   ],
 })
 export class DashboardModule {}

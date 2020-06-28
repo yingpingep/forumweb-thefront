@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { StoredData } from '../types/stored-data';
+import { StoredService } from './services/stroed-service';
 
 @Component({
   selector: 'app-dashboard',
@@ -6,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
-  constructor() {}
+  constructor(@Inject(StoredService) private lss: StoredData) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.lss.retrive().subscribe((value) => console.log(value));
+  }
 }
