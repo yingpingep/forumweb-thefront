@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ManipulateR } from 'src/app/manipulate-r/manipulate-r';
 
 @Component({
   selector: 'app-screen-mode',
@@ -6,7 +7,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./screen-mode.component.scss'],
 })
 export class ScreenModeComponent implements OnInit {
-  constructor() {}
+  constructor(private mr: ManipulateR) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.mr.connectionToHub('https://localhost:5001/controlhub');
+  }
 }

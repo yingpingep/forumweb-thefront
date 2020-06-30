@@ -7,7 +7,7 @@ import {
   QueryList,
   Renderer2,
 } from '@angular/core';
-import { FormBuilder, FormControl, FormArray } from '@angular/forms';
+import { ManipulateR } from 'src/app/manipulate-r/manipulate-r';
 
 @Component({
   selector: 'app-main',
@@ -53,9 +53,11 @@ export class MainComponent implements OnInit, AfterViewInit {
   get optionType() {
     return this.question.mode === 'single' ? 'radio' : 'checkbox';
   }
-  constructor(private renderer: Renderer2) {}
+  constructor(private renderer: Renderer2, private mr: ManipulateR) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.mr.connectionToHub('https://localhost:5001/controlhub');
+  }
 
   ngAfterViewInit() {}
 

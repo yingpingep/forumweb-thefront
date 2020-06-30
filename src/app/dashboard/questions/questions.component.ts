@@ -4,6 +4,7 @@ import { v4 as uuidV4 } from 'uuid';
 import { StoredService } from '../services/stroed-service';
 import { StoredData } from 'src/app/types/stored-data';
 import { take } from 'rxjs/operators';
+import { ManipulateR } from 'src/app/manipulate-r/manipulate-r';
 
 @Component({
   selector: 'app-questions',
@@ -11,9 +12,12 @@ import { take } from 'rxjs/operators';
   styleUrls: ['./questions.component.scss'],
 })
 export class QuestionsComponent implements OnInit {
-  constructor(@Inject(StoredService) private ss: StoredData) {}
-
   questions: Partial<Question[]> = [];
+  constructor(
+    @Inject(StoredService) private ss: StoredData,
+    private mr: ManipulateR
+  ) {}
+
   ngOnInit(): void {
     this.ss
       .retrive()
@@ -21,6 +25,8 @@ export class QuestionsComponent implements OnInit {
       .subscribe((value) => {
         this.questions = value.data;
       });
+
+    this.mr.connectionToHub('https://localhost:5001/controlhub');
   }
 
   drop(event: CdkDragDrop<string[]>) {
