@@ -12,10 +12,6 @@ import { Question } from 'src/app/models';
 export class LocalStoredService implements StoredData {
   constructor() {}
   prepareAndSave(data: Question[]): Observable<SaveResponse> {
-    data.forEach((question, index) => {
-      question.Number = `${index}`;
-    });
-
     localStorage.setItem('questions', JSON.stringify(data));
 
     return of({

@@ -9,6 +9,8 @@ import {
   ViewChild,
   Output,
   EventEmitter,
+  SimpleChanges,
+  OnChanges,
 } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import {
@@ -17,13 +19,14 @@ import {
   AnswerOption,
   Question,
 } from 'src/app/models';
+import { ManagerR } from 'src/app/utlis/manipulate-r.service';
 
 @Component({
-  selector: 'app-question-card',
-  templateUrl: './question-card.component.html',
-  styleUrls: ['./question-card.component.scss'],
+  selector: 'app-question-design-card',
+  templateUrl: './question-design-card.component.html',
+  styleUrls: ['./question-design-card.component.scss'],
 })
-export class QuestionCardComponent implements OnInit, AfterViewInit {
+export class QuestionDesignCardComponent implements OnInit, AfterViewInit {
   @ViewChild('questionTitleRef') questionTitleRef: ElementRef<HTMLInputElement>;
   @ViewChildren('optionInput') optionInputs: ElementRef<HTMLInputElement>[];
   @Input() questionData: Question;
@@ -38,16 +41,16 @@ export class QuestionCardComponent implements OnInit, AfterViewInit {
   }
   questionConfigs: QuestionConfig[] = [
     {
-      Id: QuestionMode.Single,
-      Text: '單選',
+      id: QuestionMode.Single,
+      text: '單選',
     },
     {
-      Id: QuestionMode.Multiple,
-      Text: '多選',
+      id: QuestionMode.Multiple,
+      text: '多選',
     },
     {
-      Id: QuestionMode.Answer,
-      Text: '簡答',
+      id: QuestionMode.Answer,
+      text: '簡答',
     },
   ];
 
@@ -55,29 +58,42 @@ export class QuestionCardComponent implements OnInit, AfterViewInit {
 
   private optionCount = 0;
 
-  constructor(private renderer: Renderer2, private elementRef: ElementRef) {}
+  constructor(
+    private renderer: Renderer2,
+    private elementRef: ElementRef,
+    private mr: ManagerR
+  ) {}
 
   ngOnInit(): void {
-    this.optionList = this.questionData.AnswerOptions || [];
+    this.optionList = this.questionData.answerOptions || [];
   }
 
   ngAfterViewInit(): void {
-    this.setInputChecked(this.mode.value);
+    this.setInputChecked(this.questionData.mode);
+    this.questionTitleInput.value = this.questionData.title;
+
+    const lastOption = this.questionData.answerOptions[
+      this.questionData.answerOptions.length - 1
+    ];
+    this.optionCount = lastOption ? lastOption.index + 1 : 0;
   }
 
   questionTitleChange() {
-    this.questionData.Title = this.questionTitleInput.value;
+    this.questionData.title = this.questionTitleInput.value;
   }
 
   optionTitleChange(event: Event, index: number) {
-    const option = this.optionList.find((v) => v.Index === index);
-    option.Text = (event.target as HTMLInputElement).value;
+    const option = this.optionList.find((v) => v.index === index);
+    option.text = (event.target as HTMLInputElement).value;
   }
 
+  sendToGuest() {
+    this.mr.sendQuestion(this.questionData).subscribe();
+  }
   addNewOption() {
     this.optionList.push({
-      Index: this.optionCount++,
-      Text: '',
+      index: this.optionCount++,
+      text: '',
     });
   }
 
@@ -90,20 +106,21 @@ export class QuestionCardComponent implements OnInit, AfterViewInit {
     }
   }
 
-  questionModeInputClick(id: QuestionMode) {
-    this.setInputChecked(id);
-    this.switchModeTo(id);
+  questionModeInputClick(questionMode: QuestionMode) {
+    this.setInputChecked(questionMode);
+    this.switchModeTo(questionMode);
+    this.questionData.mode = questionMode;
   }
 
   removeQuestionClick() {
-    this.removeQuestion.emit(this.questionData.Id);
+    this.removeQuestion.emit(this.questionData.id);
   }
 
   removeOptionClick(removeOptionIndex: number) {
     this.optionList = this.optionList.filter(
-      (v) => v.Index !== removeOptionIndex
+      (v) => v.index !== removeOptionIndex
     );
-    this.questionData.AnswerOptions = this.optionList;
+    this.questionData.answerOptions = this.optionList;
   }
 
   private switchModeTo(questionMode: QuestionMode) {
@@ -113,17 +130,17 @@ export class QuestionCardComponent implements OnInit, AfterViewInit {
   /**
    * Setup 'checked' attribute of the radio input elements.
    */
-  private setInputChecked(id: QuestionMode) {
+  private setInputChecked(questionMode: QuestionMode) {
     this.questionConfigs
-      .filter((v) => v.Id !== id)
+      .filter((v) => v.id !== questionMode)
       .forEach((v) =>
         this.renderer.removeAttribute(
-          this.nativeElement.querySelector(`#${QuestionMode[v.Id]}`),
+          this.nativeElement.querySelector(`#${QuestionMode[v.id]}`),
           'checked'
         )
       );
     this.renderer.setAttribute(
-      this.nativeElement.querySelector(`#${QuestionMode[id]}`),
+      this.nativeElement.querySelector(`#${QuestionMode[questionMode]}`),
       'checked',
       ''
     );

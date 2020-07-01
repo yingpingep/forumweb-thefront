@@ -1,7 +1,7 @@
 <div class="container mt-3">
   <div class="d-flex justify-content-center align-itmes-center">
     <div cdkDropList class="question-list" (cdkDropListDropped)="drop($event)">
-      <app-question-card
+      <app-question-design-card
         *ngFor="let question of questions; let i = index"
         class="card mb-sm-3 mb-5 p-1"
         cdkDrag
@@ -9,7 +9,7 @@
         (removeQuestion)="removeQuestion($event)"
       >
         Q{{ i + 1 }}
-      </app-question-card>
+      </app-question-design-card>
     </div>
   </div>
   <div class="d-flex">

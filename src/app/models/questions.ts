@@ -4,28 +4,28 @@ export enum QuestionMode {
   Answer,
 }
 export interface Question {
-  readonly Id: string;
-  Number: string;
-  Title: string;
-  Mode: QuestionMode;
-  AnswerOptions?: AnswerOption[];
+  readonly id: string;
+  number: string;
+  title: string;
+  mode: QuestionMode;
+  answerOptions?: AnswerOption[];
 }
 
 export interface AnswerOption {
   /**
    * Index in question list.
    */
-  Index: number;
+  index: number;
   /**
    * Question title.
    */
-  Text: string;
+  text: string;
 }
 
 export interface QuestionConfig {
-  Id: QuestionMode;
+  id: QuestionMode;
   /**
    * Display text.
    */
-  Text: string;
+  text: string;
 }

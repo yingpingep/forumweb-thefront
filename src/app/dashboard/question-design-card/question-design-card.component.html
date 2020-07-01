@@ -29,21 +29,21 @@
       <ng-container *ngFor="let questionConfig of questionConfigs">
         <label
           class="btn btn-outline-secondary"
-          [ngClass]="{ active: (mode | async) === questionConfig.Id }"
+          [ngClass]="{ active: (mode | async) === questionConfig.id }"
         >
           <input
             type="radio"
             name="questionMode"
-            id="{{ questionMode[questionConfig.Id] }}"
+            id="{{ questionMode[questionConfig.id] }}"
             autocomplete="off"
-            (click)="questionModeInputClick(questionConfig.Id)"
+            (click)="questionModeInputClick(questionConfig.id)"
           />
-          {{ questionConfig.Text }}
+          {{ questionConfig.text }}
         </label>
       </ng-container>
     </div>
 
-    <ng-container hidden *ngIf="(mode | async) !== questionMode.Answer">
+    <ng-container *ngIf="(mode | async) !== questionMode.Answer">
       <div class="pl-3 pr-3 option">
         <ng-container *ngFor="let option of optionList; let i = index">
           <div class="d-flex justify-content-between">
@@ -51,20 +51,31 @@
               #optionInput
               class="option-input"
               placeholder="選項 {{ i + 1 }}"
-              (change)="optionTitleChange($event, option.Index)"
-              (keyup.enter)="focusToNext(option.Index)"
-              value="{{ option.Text }}"
+              (change)="optionTitleChange($event, option.index)"
+              (keyup.enter)="focusToNext(option.index)"
+              value="{{ option.text }}"
             />
-            <button mat-icon-button (click)="removeOptionClick(option.Index)">
+            <button mat-icon-button (click)="removeOptionClick(option.index)">
               <mat-icon>close</mat-icon>
             </button>
           </div>
           <div class="mb-2 bottom-line"></div>
         </ng-container>
-        <button mat-mini-fab class="plus-button" (click)="addNewOption()">
-          <mat-icon>add</mat-icon>
-        </button>
       </div>
     </ng-container>
+
+    <div class="button-footer d-flex justify-content-around">
+      <button
+        mat-mini-fab
+        class="plus-button"
+        (click)="addNewOption()"
+        *ngIf="(mode | async) !== questionMode.Answer"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+      <button mat-mini-fab class="plus-button" (click)="sendToGuest()">
+        <mat-icon>api</mat-icon>
+      </button>
+    </div>
   </div>
 </div>

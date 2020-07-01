@@ -3,7 +3,6 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { v4 as uuidV4 } from 'uuid';
 import { StoredService } from '../services/stroed-service';
 import { take } from 'rxjs/operators';
-import { ManipulateR } from 'src/app/utlis/manipulate-r.service';
 import { Question, QuestionMode, StoredData, Status } from 'src/app/models';
 
 @Component({
@@ -13,10 +12,7 @@ import { Question, QuestionMode, StoredData, Status } from 'src/app/models';
 })
 export class QuestionsComponent implements OnInit {
   questions: Partial<Question[]> = [];
-  constructor(
-    @Inject(StoredService) private ss: StoredData,
-    private mr: ManipulateR
-  ) {}
+  constructor(@Inject(StoredService) private ss: StoredData) {}
 
   ngOnInit(): void {
     this.ss
@@ -25,12 +21,13 @@ export class QuestionsComponent implements OnInit {
       .subscribe((value) => {
         this.questions = value.data;
       });
-
-    this.mr.connectionToHub('https://localhost:5001/controlhub');
   }
 
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.questions, event.previousIndex, event.currentIndex);
+    this.questions.forEach((q, index) => {
+      q.number = (index + 1).toString();
+    });
   }
 
   addNewQuestion() {
@@ -39,7 +36,7 @@ export class QuestionsComponent implements OnInit {
 
   removeQuestion(removeId: string) {
     this.questions = this.questions.filter(
-      (question) => question.Id !== removeId
+      (question) => question.id !== removeId
     );
   }
 
@@ -54,11 +51,11 @@ export class QuestionsComponent implements OnInit {
 
   private questionFactory(): Question {
     return {
-      Id: uuidV4(),
-      Number: '',
-      Title: '',
-      Mode: QuestionMode.Single,
-      AnswerOptions: [],
+      id: uuidV4(),
+      number: '',
+      title: '',
+      mode: QuestionMode.Single,
+      answerOptions: [],
     };
   }
 }

@@ -8,10 +8,6 @@
     width: 100%;
     font-size: 24px;
   }
-
-  .plus-button {
-    background-color: #f3969a;
-  }
 }
 
 .question-title {
@@ -23,4 +19,10 @@
 .bottom-line {
   margin-top: 1px;
   border-bottom: 2px solid #888;
+}
+
+.button-footer {
+  .plus-button {
+    background-color: #f3969a;
+  }
 }

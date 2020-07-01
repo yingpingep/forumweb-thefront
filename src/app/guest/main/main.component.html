@@ -1,53 +1,9 @@
 <div class="container-fluid base-background">
   <div style="position: relative; top: 20%;">
-    <div class="card mb-3">
-      <h3 class="card-header">
-        {{ numberOfQuestion }}
-      </h3>
-      <div class="card-body">
-        <h5 class="card-title">{{ question.Title }}</h5>
-        <h6 class="card-subtitle text-muted">{{ mode[question.Mode] }}</h6>
-      </div>
-
-      <ng-container [ngSwitch]="question.Mode">
-        <ng-container *ngSwitchCase="questionMode.Answer">
-          <div class="card-body">
-            <div class="form-group">
-              <textarea
-                (blur)="rollToFirst($event)"
-                (change)="answerTextareaChange($event)"
-                class="form-control"
-                id="answerText"
-                rows="5"
-              ></textarea>
-            </div>
-          </div>
-        </ng-container>
-
-        <ng-container *ngSwitchDefault>
-          <div class="btn-group-vertical btn-group-toggle">
-            <ng-container *ngFor="let option of question.AnswerOptions">
-              <label #optionRefs class="btn btn-secondary">
-                <input
-                  [type]="optionType"
-                  (change)="optionChange(option)"
-                  name="options"
-                  id="{{ 'option' + option.Index }}"
-                  autocomplete="off"
-                />
-                {{ option.Text }}
-              </label>
-              <div class="mb-2"></div>
-            </ng-container>
-          </div>
-        </ng-container>
-      </ng-container>
-
-      <div class="card-footer text-muted">
-        <button type="button" class="btn btn-primary" (click)="submit()">
-          送出
-        </button>
-      </div>
-    </div>
+    <ng-container *ngIf="question">
+      <app-question-answer-card
+        [question]="question"
+      ></app-question-answer-card>
+    </ng-container>
   </div>
 </div>
