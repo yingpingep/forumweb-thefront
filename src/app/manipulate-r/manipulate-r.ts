@@ -5,15 +5,18 @@ import {
   PageType,
 } from '../types/manipulate-r';
 import * as signalR from '@microsoft/signalr';
-import { of, Observable } from 'rxjs';
+import { of, Observable, Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
+import { take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'any',
 })
 export class ManipulateR implements ManipulateRBase {
-  private connection: signalR.HubConnection;
-
+  protected connection: signalR.HubConnection;
+  protected question$ = new Subject<Question>();
+  protected message$ = new Subject<Message>();
+  protected changePage$ = new Subject<PageType>();
   constructor() {}
   connectionToHub(url: string): void {
     if (this.connection) {
@@ -29,24 +32,36 @@ export class ManipulateR implements ManipulateRBase {
     this.connection.stop().catch((err) => console.log(err));
   }
   receiveQuestion(): Observable<Question> {
-    return of({
-      id: 'null',
-      number: 'null',
-      title: 'null',
-      mode: 'single',
-    } as Question);
+    const callback = (question: Question) => {
+      this.question$.next(question);
+    };
+    this.receiveWith('ReceiveQuestion', callback);
+    return this.question$.asObservable();
   }
   receiveMessage(): Observable<Message> {
-    return of({
-      type: 'String',
-      content: 'null',
-    } as Message);
-  }
-  sendMessage(message: Message): Observable<any> {
-    return of(null);
+    const callback = (message: Message) => {
+      this.message$.next(message);
+    };
+    this.receiveWith('ReceiveMessage', callback);
+    return this.message$.asObservable();
   }
   receiveChangePage(): Observable<PageType> {
-    return of('KeyVision' as PageType);
+    const callback = (goPage: PageType) => {
+      this.changePage$.next(goPage);
+    };
+    this.receiveWith('ReceiveChangePage', callback);
+    return this.changePage$.asObservable();
+  }
+  sendMessage(message: Message): Observable<any> {
+    return new Observable((subscriber) => {
+      this.connection
+        .invoke('SendMessage', message)
+        .then((returnValue) => subscriber.next(returnValue))
+        .catch((error) => subscriber.error(error));
+    }).pipe(take(1));
+  }
+  private receiveWith(method: string, callback: (...args: any[]) => void) {
+    this.connection.on(method, callback);
   }
 }
 
@@ -54,10 +69,23 @@ export class ManipulateR implements ManipulateRBase {
   providedIn: 'any',
 })
 export class ManagerR extends ManipulateR implements ManagerFunc {
+  constructor() {
+    super();
+  }
   sendQuestion(question: Question): Observable<any> {
-    return of(null);
+    return new Observable((subscriber) => {
+      this.connection
+        .invoke('SendQuestion', question)
+        .then((returnValue) => subscriber.next(returnValue))
+        .catch((error) => subscriber.error(error));
+    }).pipe(take(1));
   }
   sendChangePage(page: PageType): Observable<any> {
-    return of(null);
+    return new Observable((subscriber) => {
+      this.connection
+        .invoke('SendChangePage', page)
+        .then((returnValue) => subscriber.next(returnValue))
+        .catch((error) => subscriber.error(error));
+    }).pipe(take(1));
   }
 }

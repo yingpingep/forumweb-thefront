@@ -3,8 +3,8 @@ import { Observable } from 'rxjs';
 declare type MessageType = 'String' | 'Image';
 
 declare type Message = {
-  type: MessageType;
-  content: any;
+  Type: MessageType;
+  Content: any;
 };
 
 declare type PageType = 'Chat' | 'Question' | 'KeyVision';
