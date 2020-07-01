@@ -26,24 +26,24 @@
       questionMode
       data-toggle="buttons"
     >
-      <ng-container *ngFor="let questionMode of questionModes">
+      <ng-container *ngFor="let questionConfig of questionConfigs">
         <label
           class="btn btn-outline-secondary"
-          [ngClass]="{ active: (mode | async) === questionMode.id }"
+          [ngClass]="{ active: (mode | async) === questionConfig.Id }"
         >
           <input
             type="radio"
             name="questionMode"
-            id="{{ questionMode.id }}"
+            id="{{ questionMode[questionConfig.Id] }}"
             autocomplete="off"
-            (click)="questionModeInputClick(questionMode.id)"
+            (click)="questionModeInputClick(questionConfig.Id)"
           />
-          {{ questionMode.text }}
+          {{ questionConfig.Text }}
         </label>
       </ng-container>
     </div>
 
-    <ng-container hidden *ngIf="(mode | async) !== 'answer'">
+    <ng-container hidden *ngIf="(mode | async) !== questionMode.Answer">
       <div class="pl-3 pr-3 option">
         <ng-container *ngFor="let option of optionList; let i = index">
           <div class="d-flex justify-content-between">
@@ -51,11 +51,11 @@
               #optionInput
               class="option-input"
               placeholder="選項 {{ i + 1 }}"
-              (change)="optionTitleChange($event, option.index)"
-              (keyup.enter)="focusToNext(option.index)"
-              value="{{ option.text }}"
+              (change)="optionTitleChange($event, option.Index)"
+              (keyup.enter)="focusToNext(option.Index)"
+              value="{{ option.Text }}"
             />
-            <button mat-icon-button (click)="removeOptionClick(option.index)">
+            <button mat-icon-button (click)="removeOptionClick(option.Index)">
               <mat-icon>close</mat-icon>
             </button>
           </div>

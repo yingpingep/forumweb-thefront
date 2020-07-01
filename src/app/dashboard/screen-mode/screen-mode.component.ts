@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ManipulateR } from 'src/app/manipulate-r/manipulate-r';
+import { ManipulateR } from 'src/app/utlis/manipulate-r.service';
 
 @Component({
   selector: 'app-screen-mode',

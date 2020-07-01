@@ -3,21 +3,23 @@ import {
   StoredData,
   SaveResponse,
   RetriveResponse,
-} from 'src/app/types/stored-data';
+  Status,
+} from 'src/app/models/stored-data';
 import { Observable, of } from 'rxjs';
+import { Question } from 'src/app/models';
 
 @Injectable()
 export class LocalStoredService implements StoredData {
   constructor() {}
   prepareAndSave(data: Question[]): Observable<SaveResponse> {
     data.forEach((question, index) => {
-      question.number = `${index}`;
+      question.Number = `${index}`;
     });
 
     localStorage.setItem('questions', JSON.stringify(data));
 
     return of({
-      status: 'OK',
+      status: Status.Ok,
     });
   }
   retrive(): Observable<RetriveResponse> {
@@ -27,7 +29,7 @@ export class LocalStoredService implements StoredData {
     }
 
     return of({
-      status: 'OK',
+      status: Status.Ok,
       data: obj,
     });
   }

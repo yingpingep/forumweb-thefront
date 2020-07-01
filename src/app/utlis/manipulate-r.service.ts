@@ -3,11 +3,17 @@ import {
   ManagerFunc,
   Message,
   PageType,
-} from '../types/manipulate-r';
+} from '../models/manipulate-r';
 import * as signalR from '@microsoft/signalr';
-import { of, Observable, Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { take } from 'rxjs/operators';
+import { Question } from '../models';
+
+export enum MessageType {
+  String,
+  Image,
+}
 
 @Injectable({
   providedIn: 'any',

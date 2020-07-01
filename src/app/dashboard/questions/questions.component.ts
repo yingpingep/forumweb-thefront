@@ -2,9 +2,9 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { v4 as uuidV4 } from 'uuid';
 import { StoredService } from '../services/stroed-service';
-import { StoredData } from 'src/app/types/stored-data';
 import { take } from 'rxjs/operators';
-import { ManipulateR } from 'src/app/manipulate-r/manipulate-r';
+import { ManipulateR } from 'src/app/utlis/manipulate-r.service';
+import { Question, QuestionMode, StoredData, Status } from 'src/app/models';
 
 @Component({
   selector: 'app-questions',
@@ -39,7 +39,7 @@ export class QuestionsComponent implements OnInit {
 
   removeQuestion(removeId: string) {
     this.questions = this.questions.filter(
-      (question) => question.id !== removeId
+      (question) => question.Id !== removeId
     );
   }
 
@@ -48,17 +48,17 @@ export class QuestionsComponent implements OnInit {
       .prepareAndSave(this.questions)
       .pipe(take(1))
       .subscribe((v) => {
-        console.log(v.status);
+        console.log(Status[v.status]);
       });
   }
 
   private questionFactory(): Question {
     return {
-      id: uuidV4(),
-      number: '',
-      title: '',
-      mode: 'single',
-      answerOptions: [],
+      Id: uuidV4(),
+      Number: '',
+      Title: '',
+      Mode: QuestionMode.Single,
+      AnswerOptions: [],
     };
   }
 }

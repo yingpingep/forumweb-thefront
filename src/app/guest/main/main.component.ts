@@ -7,7 +7,8 @@ import {
   QueryList,
   Renderer2,
 } from '@angular/core';
-import { ManipulateR } from 'src/app/manipulate-r/manipulate-r';
+import { ManipulateR } from 'src/app/utlis/manipulate-r.service';
+import { QuestionMode, Question, AnswerOption } from 'src/app/models';
 
 @Component({
   selector: 'app-main',
@@ -16,42 +17,43 @@ import { ManipulateR } from 'src/app/manipulate-r/manipulate-r';
 })
 export class MainComponent implements OnInit, AfterViewInit {
   @ViewChildren('optionRefs') optionRefs: QueryList<ElementRef>;
+  questionMode = QuestionMode;
   numberOfQuestion = 'Q1';
   question: Question = {
-    id: '1',
-    number: '0',
-    title: '測試用的題目 1234567',
-    mode: 'multiple',
-    answerOptions: [
+    Id: '1',
+    Number: '0',
+    Title: '測試用的題目 1234567',
+    Mode: QuestionMode.Multiple,
+    AnswerOptions: [
       {
-        index: 0,
-        text: 'A',
+        Index: 0,
+        Text: 'A',
       },
       {
-        index: 1,
-        text: 'B',
+        Index: 1,
+        Text: 'B',
       },
       {
-        index: 2,
-        text: 'C',
+        Index: 2,
+        Text: 'C',
       },
       {
-        index: 3,
-        text: 'D',
+        Index: 3,
+        Text: 'D',
       },
     ],
   };
 
   mode: Record<QuestionMode, string> = {
-    single: '單選題',
-    multiple: '多選題',
-    answer: '簡答題',
+    [QuestionMode.Single]: '單選題',
+    [QuestionMode.Multiple]: '多選題',
+    [QuestionMode.Answer]: '簡答題',
   };
 
   answers: AnswerOption[] = [];
 
   get optionType() {
-    return this.question.mode === 'single' ? 'radio' : 'checkbox';
+    return this.question.Mode === QuestionMode.Single ? 'radio' : 'checkbox';
   }
   constructor(private renderer: Renderer2, private mr: ManipulateR) {}
 
@@ -69,8 +71,8 @@ export class MainComponent implements OnInit, AfterViewInit {
     const target = event.target as HTMLTextAreaElement;
     this.answers = [
       {
-        index: 0,
-        text: target.value,
+        Index: 0,
+        Text: target.value,
       },
     ];
   }
@@ -78,13 +80,13 @@ export class MainComponent implements OnInit, AfterViewInit {
   optionChange(option: AnswerOption) {
     const multiple = () => {
       const hasChecked =
-        this.answers.filter((v) => v.index === option.index).length === 1;
+        this.answers.filter((v) => v.Index === option.Index).length === 1;
       const nativeEle = this.optionRefs.find(
-        (_, index) => index === option.index
+        (_, index) => index === option.Index
       ).nativeElement;
       if (hasChecked) {
         this.renderer.removeClass(nativeEle, 'active');
-        this.answers = this.answers.filter((v) => v.index !== option.index);
+        this.answers = this.answers.filter((v) => v.Index !== option.Index);
         return;
       }
 
@@ -94,7 +96,7 @@ export class MainComponent implements OnInit, AfterViewInit {
 
     const single = () => {
       this.optionRefs.forEach((item, index) => {
-        if (index !== option.index) {
+        if (index !== option.Index) {
           this.renderer.removeClass(item.nativeElement, 'active');
         } else {
           this.renderer.addClass(item.nativeElement, 'active');
@@ -103,7 +105,7 @@ export class MainComponent implements OnInit, AfterViewInit {
       this.answers = [option];
     };
 
-    if (this.question.mode === 'multiple') {
+    if (this.question.Mode === QuestionMode.Multiple) {
       multiple();
     } else {
       single();

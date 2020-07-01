@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { StoredData } from '../types/stored-data';
+import { StoredData } from '../models/stored-data';
 import { StoredService } from './services/stroed-service';
 
 @Component({

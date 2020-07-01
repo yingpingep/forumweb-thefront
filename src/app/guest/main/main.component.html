@@ -5,12 +5,12 @@
         {{ numberOfQuestion }}
       </h3>
       <div class="card-body">
-        <h5 class="card-title">{{ question.title }}</h5>
-        <h6 class="card-subtitle text-muted">{{ mode[question.mode] }}</h6>
+        <h5 class="card-title">{{ question.Title }}</h5>
+        <h6 class="card-subtitle text-muted">{{ mode[question.Mode] }}</h6>
       </div>
 
-      <ng-container [ngSwitch]="question.mode">
-        <ng-container *ngSwitchCase="'answer'">
+      <ng-container [ngSwitch]="question.Mode">
+        <ng-container *ngSwitchCase="questionMode.Answer">
           <div class="card-body">
             <div class="form-group">
               <textarea
@@ -26,16 +26,16 @@
 
         <ng-container *ngSwitchDefault>
           <div class="btn-group-vertical btn-group-toggle">
-            <ng-container *ngFor="let option of question.answerOptions">
+            <ng-container *ngFor="let option of question.AnswerOptions">
               <label #optionRefs class="btn btn-secondary">
                 <input
                   [type]="optionType"
                   (change)="optionChange(option)"
                   name="options"
-                  id="{{ 'option' + option.index }}"
+                  id="{{ 'option' + option.Index }}"
                   autocomplete="off"
                 />
-                {{ option.text }}
+                {{ option.Text }}
               </label>
               <div class="mb-2"></div>
             </ng-container>
