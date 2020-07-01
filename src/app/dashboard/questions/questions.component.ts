@@ -2,8 +2,8 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { v4 as uuidV4 } from 'uuid';
 import { StoredService } from '../services/stroed-service';
-import { StoredData } from 'src/app/types/stored-data';
 import { take } from 'rxjs/operators';
+import { Question, QuestionMode, StoredData, Status } from 'src/app/models';
 
 @Component({
   selector: 'app-questions',
@@ -11,9 +11,9 @@ import { take } from 'rxjs/operators';
   styleUrls: ['./questions.component.scss'],
 })
 export class QuestionsComponent implements OnInit {
+  questions: Partial<Question[]> = [];
   constructor(@Inject(StoredService) private ss: StoredData) {}
 
-  questions: Partial<Question[]> = [];
   ngOnInit(): void {
     this.ss
       .retrive()
@@ -25,6 +25,9 @@ export class QuestionsComponent implements OnInit {
 
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.questions, event.previousIndex, event.currentIndex);
+    this.questions.forEach((q, index) => {
+      q.number = (index + 1).toString();
+    });
   }
 
   addNewQuestion() {
@@ -42,7 +45,7 @@ export class QuestionsComponent implements OnInit {
       .prepareAndSave(this.questions)
       .pipe(take(1))
       .subscribe((v) => {
-        console.log(v.status);
+        console.log(Status[v.status]);
       });
   }
 
@@ -51,7 +54,7 @@ export class QuestionsComponent implements OnInit {
       id: uuidV4(),
       number: '',
       title: '',
-      mode: 'single',
+      mode: QuestionMode.Single,
       answerOptions: [],
     };
   }

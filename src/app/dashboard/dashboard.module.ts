@@ -4,7 +4,7 @@ import { DashboardComponent } from './dashboard.component';
 import { RouterModule, Routes } from '@angular/router';
 import { QuestionsComponent } from './questions/questions.component';
 import { GuestModeComponent } from './guest-mode/guest-mode.component';
-import { QuestionCardComponent } from './question-card/question-card.component';
+import { QuestionDesignCardComponent } from './question-design-card/question-design-card.component';
 import { SharedMaterialModule } from '../shared-material/shared-material.module';
 import { LocalStoredService } from './services/local-stored.service';
 import { StoredService } from './services/stroed-service';
@@ -33,7 +33,7 @@ export const dashboardRoutes: Routes = [
     DashboardComponent,
     QuestionsComponent,
     GuestModeComponent,
-    QuestionCardComponent,
+    QuestionDesignCardComponent,
   ],
   imports: [
     CommonModule,

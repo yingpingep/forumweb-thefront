@@ -1,17 +1,20 @@
 import { Observable } from 'rxjs';
-import { QueryList } from '@angular/core';
+import { Question } from './questions';
 
-declare type Status = 'OK' | 'Error';
-declare type SaveResponse = {
+export enum Status {
+  Ok,
+  Error,
+}
+export type SaveResponse = {
   status: Status;
 };
 
-declare type RetriveResponse = {
+export type RetriveResponse = {
   status: Status;
   data: Question[];
 };
 
-declare interface StoredData {
+export interface StoredData {
   prepareAndSave(data: Question[]): Observable<SaveResponse>;
   retrive(): Observable<RetriveResponse>;
 }

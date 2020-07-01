@@ -5,7 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ObserversModule } from '@angular/cdk/observers';
 
-export const sharedModules = [
+export const sharedMaterialModules = [
   DragDropModule,
   MatButtonModule,
   MatIconModule,
@@ -14,7 +14,7 @@ export const sharedModules = [
 
 @NgModule({
   declarations: [],
-  imports: [CommonModule, ...sharedModules],
-  exports: [...sharedModules],
+  imports: [CommonModule, ...sharedMaterialModules],
+  exports: [...sharedMaterialModules],
 })
 export class SharedMaterialModule {}

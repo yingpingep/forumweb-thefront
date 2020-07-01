@@ -1,5 +1,9 @@
-declare type QuestionMode = 'single' | 'multiple' | 'answer';
-declare interface Question {
+export enum QuestionMode {
+  Single,
+  Multiple,
+  Answer,
+}
+export interface Question {
   readonly id: string;
   number: string;
   title: string;
@@ -7,7 +11,7 @@ declare interface Question {
   answerOptions?: AnswerOption[];
 }
 
-declare interface AnswerOption {
+export interface AnswerOption {
   /**
    * Index in question list.
    */
@@ -18,7 +22,7 @@ declare interface AnswerOption {
   text: string;
 }
 
-declare interface QuestionConfig {
+export interface QuestionConfig {
   id: QuestionMode;
   /**
    * Display text.
