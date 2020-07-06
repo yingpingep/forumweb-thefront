@@ -43,6 +43,18 @@
       </ng-container>
     </div>
 
+    <div class="custom-control custom-switch m-3">
+      <input
+        type="checkbox"
+        class="custom-control-input"
+        id="showOtherOption"
+        (change)="switchShowOtherOption()"
+      />
+      <label class="custom-control-label" for="showOtherOption"
+        >顯示「其他」選項</label
+      >
+    </div>
+
     <ng-container *ngIf="(mode | async) !== questionMode.Answer">
       <div class="pl-3 pr-3 option">
         <ng-container *ngFor="let option of optionList; let i = index">
@@ -53,9 +65,14 @@
               placeholder="選項 {{ i + 1 }}"
               (change)="optionTitleChange($event, option.index)"
               (keyup.enter)="focusToNext(option.index)"
+              [disabled]="option.type === answerType.Textinput"
               value="{{ option.text }}"
             />
-            <button mat-icon-button (click)="removeOptionClick(option.index)">
+            <button
+              mat-icon-button
+              (click)="removeOptionClick(option.index)"
+              *ngIf="option.type === answerType.Predefined"
+            >
               <mat-icon>close</mat-icon>
             </button>
           </div>
@@ -66,15 +83,15 @@
 
     <div class="button-footer d-flex justify-content-around">
       <button
-        mat-mini-fab
-        class="plus-button"
+        type="button"
+        class="btn btn-secondary"
         (click)="addNewOption()"
         *ngIf="(mode | async) !== questionMode.Answer"
       >
-        <mat-icon>add</mat-icon>
+        新增選項
       </button>
-      <button mat-mini-fab class="plus-button" (click)="sendToGuest()">
-        <mat-icon>api</mat-icon>
+      <button type="button" class="btn btn-secondary" (click)="sendToGuest()">
+        送出
       </button>
     </div>
   </div>

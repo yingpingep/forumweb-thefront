@@ -7,7 +7,12 @@ import {
   ElementRef,
   Renderer2,
 } from '@angular/core';
-import { Question, QuestionMode, AnswerOption } from 'src/app/models';
+import {
+  Question,
+  QuestionMode,
+  AnswerOption,
+  AnswerOptionType,
+} from 'src/app/models';
 
 @Component({
   selector: 'app-question-answer-card',
@@ -41,6 +46,7 @@ export class QuestionAnswerCardComponent implements OnInit {
     this.answers = [
       {
         index: 0,
+        type: AnswerOptionType.Textinput,
         text: target.value,
       },
     ];

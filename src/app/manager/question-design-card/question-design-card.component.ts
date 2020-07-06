@@ -18,6 +18,7 @@ import {
   QuestionConfig,
   AnswerOption,
   Question,
+  AnswerOptionType,
 } from 'src/app/models';
 import { ManagerR } from 'src/app/utlis/manipulate-r.service';
 
@@ -56,6 +57,10 @@ export class QuestionDesignCardComponent implements OnInit, AfterViewInit {
 
   optionList: AnswerOption[];
 
+  shouldShowOtherOption = false;
+
+  answerType = AnswerOptionType;
+
   private optionCount = 0;
 
   constructor(
@@ -90,11 +95,25 @@ export class QuestionDesignCardComponent implements OnInit, AfterViewInit {
   sendToGuest() {
     this.mr.sendQuestion(this.questionData).subscribe();
   }
-  addNewOption() {
-    this.optionList.push({
+  addNewOption(type = AnswerOptionType.Predefined) {
+    const newOption: AnswerOption = {
       index: this.optionCount++,
-      text: '',
-    });
+      type,
+      text: type === AnswerOptionType.Textinput ? '其他' : '',
+    };
+
+    if (this.shouldShowOtherOption && type !== AnswerOptionType.Textinput) {
+      const lastIndex = this.optionList.length - 1;
+      this.optionList.splice(
+        lastIndex,
+        1,
+        newOption,
+        this.optionList[lastIndex]
+      );
+      return;
+    }
+
+    this.optionList.push(newOption);
   }
 
   focusToNext(index: number) {
@@ -121,6 +140,17 @@ export class QuestionDesignCardComponent implements OnInit, AfterViewInit {
       (v) => v.index !== removeOptionIndex
     );
     this.questionData.answerOptions = this.optionList;
+  }
+
+  switchShowOtherOption() {
+    this.shouldShowOtherOption = !this.shouldShowOtherOption;
+    if (this.shouldShowOtherOption) {
+      this.addNewOption(AnswerOptionType.Textinput);
+    } else {
+      this.optionList = this.optionList.filter(
+        (option) => option.type !== AnswerOptionType.Textinput
+      );
+    }
   }
 
   private switchModeTo(questionMode: QuestionMode) {
