@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { StoredData } from '../models/stored-data';
-import { StoredService } from './services/stroed-service';
-import { ManagerR } from '../utlis/manipulate-r.service';
+import { StoredData } from '../../models/stored-data';
+import { StoredService } from '../services/stroed-service';
+import { ManagerR } from '../../utlis/manipulate-r.service';
 
 @Component({
   selector: 'app-dashboard',
