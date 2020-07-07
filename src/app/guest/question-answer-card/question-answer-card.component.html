@@ -7,35 +7,30 @@
 
   <ng-container [ngSwitch]="question.mode">
     <ng-container *ngSwitchCase="questionMode.Answer">
-      <div class="card-body">
-        <div class="form-group">
-          <textarea
-            (blur)="rollToFirst($event)"
-            (change)="answerTextareaChange($event)"
-            class="form-control"
-            id="answerText"
-            rows="5"
-          ></textarea>
-        </div>
-      </div>
+      <ng-template [ngTemplateOutlet]="answerTextRef"> </ng-template>
     </ng-container>
 
     <ng-container *ngSwitchDefault>
       <div class="btn-group-vertical btn-group-toggle">
         <ng-container *ngFor="let option of question.answerOptions">
-          <label
-            #optionRefs
-            id="{{ 'option-label-' + option.index }}"
-            class="btn btn-secondary"
-          >
-            <input
-              [type]="optionType"
-              (change)="optionChange(option)"
-              name="options"
-              autocomplete="off"
-            />
-            {{ option.text }}
-          </label>
+          <ng-container *ngIf="option.type === answerOptionType.Predefined">
+            <label
+              #optionRefs
+              id="{{ 'option-label-' + option.index }}"
+              class="btn btn-secondary"
+            >
+              <input
+                [type]="optionType"
+                (change)="optionChange(option)"
+                name="options"
+                autocomplete="off"
+              />
+              {{ option.text }}
+            </label>
+          </ng-container>
+          <ng-container *ngIf="option.type === answerOptionType.Textinput">
+            <ng-template [ngTemplateOutlet]="answerTextRef"></ng-template>
+          </ng-container>
           <div class="mb-2"></div>
         </ng-container>
       </div>
@@ -48,3 +43,17 @@
     </button>
   </div>
 </div>
+
+<ng-template #answerTextRef>
+  <div class="answerText card-body" style="width: 100%;">
+    <div class="form-group">
+      <textarea
+        (blur)="rollToFirst($event)"
+        (change)="answerTextareaChange($event)"
+        class="form-control"
+        id="answerText"
+        rows="5"
+      ></textarea>
+    </div>
+  </div>
+</ng-template>

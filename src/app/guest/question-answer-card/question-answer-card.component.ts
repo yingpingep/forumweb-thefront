@@ -32,6 +32,7 @@ export class QuestionAnswerCardComponent implements OnInit {
   };
 
   questionMode = QuestionMode;
+  answerOptionType = AnswerOptionType;
   answers: AnswerOption[] = [];
   constructor(private renderer: Renderer2) {}
 
