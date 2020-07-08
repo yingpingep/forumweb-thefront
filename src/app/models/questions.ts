@@ -3,11 +3,16 @@ export enum QuestionMode {
   Multiple,
   Answer,
 }
+export enum AnswerOptionType {
+  Predefined,
+  Textinput,
+}
 export interface Question {
   readonly id: string;
   number: string;
   title: string;
   mode: QuestionMode;
+  hasOtherOption?: boolean;
   answerOptions?: AnswerOption[];
 }
 
@@ -16,6 +21,7 @@ export interface AnswerOption {
    * Index in question list.
    */
   index: number;
+  type: AnswerOptionType;
   /**
    * Question title.
    */

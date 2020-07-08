@@ -18,6 +18,7 @@ import {
   QuestionConfig,
   AnswerOption,
   Question,
+  AnswerOptionType,
 } from 'src/app/models';
 import { ManagerR } from 'src/app/utlis/manipulate-r.service';
 
@@ -56,7 +57,11 @@ export class QuestionDesignCardComponent implements OnInit, AfterViewInit {
 
   optionList: AnswerOption[];
 
-  private optionCount = 0;
+  shouldShowOtherOption: boolean;
+
+  answerType = AnswerOptionType;
+
+  private optionCount: number;
 
   constructor(
     private renderer: Renderer2,
@@ -66,16 +71,16 @@ export class QuestionDesignCardComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.optionList = this.questionData.answerOptions || [];
+    this.shouldShowOtherOption = !!this.questionData.hasOtherOption;
+    this.optionCount =
+      this.optionList.reduce((pre, curr) =>
+        pre.index > curr.index ? pre : curr
+      ).index + 1 || 0;
   }
 
   ngAfterViewInit(): void {
     this.setInputChecked(this.questionData.mode);
     this.questionTitleInput.value = this.questionData.title;
-
-    const lastOption = this.questionData.answerOptions[
-      this.questionData.answerOptions.length - 1
-    ];
-    this.optionCount = lastOption ? lastOption.index + 1 : 0;
   }
 
   questionTitleChange() {
@@ -90,11 +95,25 @@ export class QuestionDesignCardComponent implements OnInit, AfterViewInit {
   sendToGuest() {
     this.mr.sendQuestion(this.questionData).subscribe();
   }
-  addNewOption() {
-    this.optionList.push({
+  addNewOption(type = AnswerOptionType.Predefined) {
+    const newOption: AnswerOption = {
       index: this.optionCount++,
-      text: '',
-    });
+      type,
+      text: type === AnswerOptionType.Textinput ? '其他' : '',
+    };
+
+    if (this.shouldShowOtherOption && type !== AnswerOptionType.Textinput) {
+      const lastIndex = this.optionList.length - 1;
+      this.optionList.splice(
+        lastIndex,
+        1,
+        newOption,
+        this.optionList[lastIndex]
+      );
+      return;
+    }
+
+    this.optionList.push(newOption);
   }
 
   focusToNext(index: number) {
@@ -121,6 +140,20 @@ export class QuestionDesignCardComponent implements OnInit, AfterViewInit {
       (v) => v.index !== removeOptionIndex
     );
     this.questionData.answerOptions = this.optionList;
+  }
+
+  switchShowOtherOption() {
+    this.shouldShowOtherOption = !this.shouldShowOtherOption;
+    this.questionData.hasOtherOption = this.shouldShowOtherOption;
+
+    if (this.shouldShowOtherOption) {
+      this.addNewOption(AnswerOptionType.Textinput);
+    } else {
+      this.optionList = this.optionList.filter(
+        (option) => option.type !== AnswerOptionType.Textinput
+      );
+      this.questionData.answerOptions = this.optionList;
+    }
   }
 
   private switchModeTo(questionMode: QuestionMode) {
