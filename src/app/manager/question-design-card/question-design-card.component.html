@@ -43,7 +43,10 @@
       </ng-container>
     </div>
 
-    <div class="custom-control custom-switch m-3">
+    <div
+      class="custom-control custom-switch m-3"
+      *ngIf="(mode | async) !== questionMode.Answer"
+    >
       <input
         type="checkbox"
         class="custom-control-input"
