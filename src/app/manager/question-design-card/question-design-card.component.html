@@ -52,6 +52,7 @@
         class="custom-control-input"
         id="showOtherOption"
         (change)="switchShowOtherOption()"
+        [checked]="questionData.hasOtherOption"
       />
       <label class="custom-control-label" for="showOtherOption"
         >顯示「其他」選項</label

@@ -12,6 +12,7 @@ export interface Question {
   number: string;
   title: string;
   mode: QuestionMode;
+  hasOtherOption?: boolean;
   answerOptions?: AnswerOption[];
 }
 

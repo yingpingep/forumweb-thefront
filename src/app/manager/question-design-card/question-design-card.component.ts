@@ -57,11 +57,11 @@ export class QuestionDesignCardComponent implements OnInit, AfterViewInit {
 
   optionList: AnswerOption[];
 
-  shouldShowOtherOption = false;
+  shouldShowOtherOption: boolean;
 
   answerType = AnswerOptionType;
 
-  private optionCount = 0;
+  private optionCount: number;
 
   constructor(
     private renderer: Renderer2,
@@ -71,16 +71,16 @@ export class QuestionDesignCardComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.optionList = this.questionData.answerOptions || [];
+    this.shouldShowOtherOption = !!this.questionData.hasOtherOption;
+    this.optionCount =
+      this.optionList.reduce((pre, curr) =>
+        pre.index > curr.index ? pre : curr
+      ).index + 1 || 0;
   }
 
   ngAfterViewInit(): void {
     this.setInputChecked(this.questionData.mode);
     this.questionTitleInput.value = this.questionData.title;
-
-    const lastOption = this.questionData.answerOptions[
-      this.questionData.answerOptions.length - 1
-    ];
-    this.optionCount = lastOption ? lastOption.index + 1 : 0;
   }
 
   questionTitleChange() {
@@ -144,12 +144,15 @@ export class QuestionDesignCardComponent implements OnInit, AfterViewInit {
 
   switchShowOtherOption() {
     this.shouldShowOtherOption = !this.shouldShowOtherOption;
+    this.questionData.hasOtherOption = this.shouldShowOtherOption;
+
     if (this.shouldShowOtherOption) {
       this.addNewOption(AnswerOptionType.Textinput);
     } else {
       this.optionList = this.optionList.filter(
         (option) => option.type !== AnswerOptionType.Textinput
       );
+      this.questionData.answerOptions = this.optionList;
     }
   }
 
