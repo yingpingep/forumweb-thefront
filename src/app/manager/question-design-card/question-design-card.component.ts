@@ -61,6 +61,8 @@ export class QuestionDesignCardComponent implements OnInit, AfterViewInit {
 
   answerType = AnswerOptionType;
 
+  showCloseButton = false;
+
   private optionCount: number;
 
   constructor(
@@ -95,7 +97,9 @@ export class QuestionDesignCardComponent implements OnInit, AfterViewInit {
   }
 
   sendToGuest() {
-    this.mr.sendQuestion(this.questionData).subscribe();
+    this.mr.sendQuestion(this.questionData).subscribe((_) => {
+      this.showCloseButton = true;
+    });
   }
   addNewOption(type = AnswerOptionType.Predefined) {
     const newOption: AnswerOption = {
@@ -159,7 +163,9 @@ export class QuestionDesignCardComponent implements OnInit, AfterViewInit {
   }
 
   closeQuestion() {
-    this.mr.closeQuestion().subscribe();
+    this.mr.closeQuestion().subscribe((_) => {
+      this.showCloseButton = false;
+    });
   }
 
   private switchModeTo(questionMode: QuestionMode) {
