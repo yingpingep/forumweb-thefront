@@ -61,6 +61,8 @@ export class QuestionDesignCardComponent implements OnInit, AfterViewInit {
 
   answerType = AnswerOptionType;
 
+  showCloseButton = false;
+
   private optionCount: number;
 
   constructor(
@@ -73,9 +75,11 @@ export class QuestionDesignCardComponent implements OnInit, AfterViewInit {
     this.optionList = this.questionData.answerOptions || [];
     this.shouldShowOtherOption = !!this.questionData.hasOtherOption;
     this.optionCount =
-      this.optionList.reduce((pre, curr) =>
-        pre.index > curr.index ? pre : curr
-      ).index + 1 || 0;
+      this.optionList.length === 0
+        ? 0
+        : this.optionList.reduce((pre, curr) =>
+            pre.index > curr.index ? pre : curr
+          ).index + 1;
   }
 
   ngAfterViewInit(): void {
@@ -93,7 +97,9 @@ export class QuestionDesignCardComponent implements OnInit, AfterViewInit {
   }
 
   sendToGuest() {
-    this.mr.sendQuestion(this.questionData).subscribe();
+    this.mr.sendQuestion(this.questionData).subscribe((_) => {
+      this.showCloseButton = true;
+    });
   }
   addNewOption(type = AnswerOptionType.Predefined) {
     const newOption: AnswerOption = {
@@ -154,6 +160,12 @@ export class QuestionDesignCardComponent implements OnInit, AfterViewInit {
       );
       this.questionData.answerOptions = this.optionList;
     }
+  }
+
+  closeQuestion() {
+    this.mr.closeQuestion().subscribe((_) => {
+      this.showCloseButton = false;
+    });
   }
 
   private switchModeTo(questionMode: QuestionMode) {
