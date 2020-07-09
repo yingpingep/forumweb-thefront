@@ -38,6 +38,10 @@ export interface ManipulateRBase {
    * Receive a request which changes current page from hub.
    */
   receiveChangePage(): Observable<PageType>;
+  /**
+   * Should close current question.
+   */
+  questionClosed(): Observable<boolean>;
 }
 
 export interface ManagerFunc {
@@ -49,4 +53,8 @@ export interface ManagerFunc {
    * Send a request which uses to change guest's current page to hub.
    */
   sendChangePage(page: PageType): Observable<any>;
+  /**
+   * Send a request to guest to close a displayed question.
+   */
+  closeQuestion(shouldClose: boolean): Observable<any>;
 }

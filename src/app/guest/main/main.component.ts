@@ -29,5 +29,11 @@ export class MainComponent implements OnInit, AfterViewInit {
       console.log(`🌻: MainComponent -> ngAfterViewInit -> question`, question);
       this.question = question;
     });
+
+    this.mr.questionClosed().subscribe((shouldClose) => {
+      if (shouldClose) {
+        this.question = undefined;
+      }
+    });
   }
 }

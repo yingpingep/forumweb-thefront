@@ -73,9 +73,11 @@ export class QuestionDesignCardComponent implements OnInit, AfterViewInit {
     this.optionList = this.questionData.answerOptions || [];
     this.shouldShowOtherOption = !!this.questionData.hasOtherOption;
     this.optionCount =
-      this.optionList.reduce((pre, curr) =>
-        pre.index > curr.index ? pre : curr
-      ).index + 1 || 0;
+      this.optionList.length === 0
+        ? 0
+        : this.optionList.reduce((pre, curr) =>
+            pre.index > curr.index ? pre : curr
+          ).index + 1;
   }
 
   ngAfterViewInit(): void {
@@ -154,6 +156,10 @@ export class QuestionDesignCardComponent implements OnInit, AfterViewInit {
       );
       this.questionData.answerOptions = this.optionList;
     }
+  }
+
+  closeQuestion() {
+    this.mr.closeQuestion().subscribe();
   }
 
   private switchModeTo(questionMode: QuestionMode) {

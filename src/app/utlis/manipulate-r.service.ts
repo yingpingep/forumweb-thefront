@@ -23,6 +23,7 @@ export class ManipulateR implements ManipulateRBase {
   protected question$ = new Subject<Question>();
   protected message$ = new Subject<Message>();
   protected changePage$ = new Subject<PageType>();
+  protected close$ = new Subject<boolean>();
   constructor() {}
   connectionToHub(url: string): void {
     if (this.connection) {
@@ -66,6 +67,14 @@ export class ManipulateR implements ManipulateRBase {
         .catch((error) => subscriber.error(error));
     }).pipe(take(1));
   }
+
+  questionClosed(): Observable<boolean> {
+    const callback = (shouldClose: boolean) => {
+      this.close$.next(shouldClose);
+    };
+    this.receiveWith('QuestionClosed', callback);
+    return this.close$.asObservable();
+  }
   private receiveWith(method: string, callback: (...args: any[]) => void) {
     this.connection.on(method, callback);
   }
@@ -90,6 +99,15 @@ export class ManagerR extends ManipulateR implements ManagerFunc {
     return new Observable((subscriber) => {
       this.connection
         .invoke('SendChangePage', page)
+        .then((returnValue) => subscriber.next(returnValue))
+        .catch((error) => subscriber.error(error));
+    }).pipe(take(1));
+  }
+
+  closeQuestion(): Observable<any> {
+    return new Observable((subscriber) => {
+      this.connection
+        .invoke('CloseQuestion', true)
         .then((returnValue) => subscriber.next(returnValue))
         .catch((error) => subscriber.error(error));
     }).pipe(take(1));
