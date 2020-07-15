@@ -94,7 +94,12 @@
       >
         新增選項
       </button>
-      <button type="button" class="btn btn-secondary" (click)="sendToGuest()">
+      <button
+        [disabled]="disableSendBtn"
+        type="button"
+        class="btn btn-secondary"
+        (click)="sendToGuest()"
+      >
         送出
       </button>
       <button

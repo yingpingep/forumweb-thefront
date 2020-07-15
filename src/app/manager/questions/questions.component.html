@@ -6,7 +6,9 @@
         class="card mb-sm-3 mb-5 p-1"
         cdkDrag
         [questionData]="question"
+        [(disableSendBtn)]="disableSendBtn"
         (removeQuestion)="removeQuestion($event)"
+        (send)="send($event)"
       >
         Q{{ i + 1 }}
       </app-question-design-card>

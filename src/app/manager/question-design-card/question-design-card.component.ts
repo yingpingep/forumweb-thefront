@@ -31,7 +31,10 @@ export class QuestionDesignCardComponent implements OnInit, AfterViewInit {
   @ViewChild('questionTitleRef') questionTitleRef: ElementRef<HTMLInputElement>;
   @ViewChildren('optionInput') optionInputs: ElementRef<HTMLInputElement>[];
   @Input() questionData: Question;
+  @Input() disableSendBtn: boolean;
+  @Output() disableSendBtnChange = new EventEmitter<boolean>();
   @Output() removeQuestion = new EventEmitter<string>();
+  @Output() send = new EventEmitter<Question>();
   get questionTitleInput() {
     return this.questionTitleRef.nativeElement;
   }
@@ -61,7 +64,7 @@ export class QuestionDesignCardComponent implements OnInit, AfterViewInit {
 
   answerType = AnswerOptionType;
 
-  showCloseButton = false;
+  @Input() showCloseButton = false;
 
   private optionCount: number;
 
@@ -89,17 +92,22 @@ export class QuestionDesignCardComponent implements OnInit, AfterViewInit {
 
   questionTitleChange() {
     this.questionData.title = this.questionTitleInput.value;
+    this.disableSendBtnChange.emit(true);
   }
 
   optionTitleChange(event: Event, index: number) {
     const option = this.optionList.find((v) => v.index === index);
     option.text = (event.target as HTMLInputElement).value;
+    this.disableSendBtnChange.emit(true);
   }
 
   sendToGuest() {
-    this.mr.sendQuestion(this.questionData).subscribe((_) => {
-      this.showCloseButton = true;
-    });
+    console.log(
+      `🌻: QuestionDesignCardComponent -> sendToGuest -> this.questionData`,
+      this.questionData
+    );
+    this.send.emit(this.questionData);
+    this.showCloseButton = true;
   }
   addNewOption(type = AnswerOptionType.Predefined) {
     const newOption: AnswerOption = {
@@ -135,6 +143,7 @@ export class QuestionDesignCardComponent implements OnInit, AfterViewInit {
     this.setInputChecked(questionMode);
     this.switchModeTo(questionMode);
     this.questionData.mode = questionMode;
+    this.disableSendBtnChange.emit(true);
   }
 
   removeQuestionClick() {
@@ -146,6 +155,7 @@ export class QuestionDesignCardComponent implements OnInit, AfterViewInit {
       (v) => v.index !== removeOptionIndex
     );
     this.questionData.answerOptions = this.optionList;
+    this.disableSendBtnChange.emit(true);
   }
 
   switchShowOtherOption() {
