@@ -35,3 +35,8 @@ export interface QuestionConfig {
    */
   text: string;
 }
+
+export interface DisableButton {
+  excludeId?: string;
+  disable: boolean;
+}

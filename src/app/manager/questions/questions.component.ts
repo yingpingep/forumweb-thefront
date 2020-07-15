@@ -3,8 +3,16 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { v4 as uuidV4 } from 'uuid';
 import { StoredService } from '../services/stroed-service';
 import { take } from 'rxjs/operators';
-import { Question, QuestionMode, StoredData, Status } from 'src/app/models';
+import {
+  Question,
+  QuestionMode,
+  StoredData,
+  Status,
+  DisableButton,
+} from 'src/app/models';
 import { ManagerR } from 'src/app/utlis/manipulate-r.service';
+import { disableBtnObjFactory } from './disable-button-helper';
+import * as R from 'ramda';
 
 @Component({
   selector: 'app-questions',
@@ -13,7 +21,11 @@ import { ManagerR } from 'src/app/utlis/manipulate-r.service';
 })
 export class QuestionsComponent implements OnInit {
   questions: Partial<Question[]> = [];
-  disableSendBtn = true;
+  disableSendBtn: DisableButton = {
+    disable: true,
+  };
+  doesQuestionSend = false;
+  private storedQuestions = [];
   constructor(
     @Inject(StoredService) private ss: StoredData,
     private mr: ManagerR
@@ -25,7 +37,10 @@ export class QuestionsComponent implements OnInit {
       .pipe(take(1))
       .subscribe((value) => {
         this.questions = value.data;
-        this.disableSendBtn = value.status === Status.Ok ? false : true;
+        this.storedQuestions = R.clone(this.questions);
+        this.disableSendBtn = disableBtnObjFactory(
+          value.status === Status.Ok ? false : true
+        );
       });
   }
 
@@ -34,18 +49,19 @@ export class QuestionsComponent implements OnInit {
     this.questions.forEach((q, index) => {
       q.number = (index + 1).toString();
     });
+    this.disableSendBtn = disableBtnObjFactory();
   }
 
   addNewQuestion() {
     this.questions.push(this.questionFactory());
-    this.disableSendBtn = true;
+    this.disableSendBtn = disableBtnObjFactory();
   }
 
   removeQuestion(removeId: string) {
     this.questions = this.questions.filter(
       (question) => question.id !== removeId
     );
-    this.disableSendBtn = true;
+    this.disableSendBtn = disableBtnObjFactory();
   }
 
   saveQuestions() {
@@ -53,14 +69,26 @@ export class QuestionsComponent implements OnInit {
       .prepareAndSave(this.questions)
       .pipe(take(1))
       .subscribe((v) => {
-        console.log(Status[v.status]);
-
-        this.disableSendBtn = v.status === Status.Ok ? false : true;
+        this.storedQuestions = R.clone(this.questions);
+        this.disableSendBtn = disableBtnObjFactory(
+          v.status === Status.Ok ? false : true
+        );
       });
   }
 
   send(questionData: Question) {
-    this.mr.sendQuestion(questionData).subscribe();
+    this.mr.sendQuestion(questionData).subscribe((_) => {
+      this.doesQuestionSend = true;
+      this.disableSendBtn = disableBtnObjFactory(true);
+    });
+  }
+
+  close() {
+    this.mr.closeQuestion().subscribe((_) => {
+      const shouldDisable = !R.equals(this.questions, this.storedQuestions);
+      this.disableSendBtn = disableBtnObjFactory(shouldDisable);
+      this.doesQuestionSend = false;
+    });
   }
 
   private questionFactory(): Question {

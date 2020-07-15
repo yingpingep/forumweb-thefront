@@ -8,7 +8,8 @@
         [questionData]="question"
         [(disableSendBtn)]="disableSendBtn"
         (removeQuestion)="removeQuestion($event)"
-        (send)="send($event)"
+        (sendQuestion)="send($event)"
+        (closeQuestion)="close()"
       >
         Q{{ i + 1 }}
       </app-question-design-card>
@@ -24,6 +25,7 @@
     </button>
     <div class="m-1"></div>
     <button
+      [disabled]="doesQuestionSend"
       type="button"
       class="btn btn-primary mb-3"
       (click)="saveQuestions()"

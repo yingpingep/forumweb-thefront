@@ -95,7 +95,7 @@
         新增選項
       </button>
       <button
-        [disabled]="disableSendBtn"
+        [disabled]="isSnedBtnDisable"
         type="button"
         class="btn btn-secondary"
         (click)="sendToGuest()"
@@ -106,7 +106,7 @@
         *ngIf="showCloseButton"
         type="button"
         class="btn btn-secondary"
-        (click)="closeQuestion()"
+        (click)="closeBtnClick()"
       >
         關閉
       </button>

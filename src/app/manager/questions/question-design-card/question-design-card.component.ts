@@ -9,8 +9,6 @@ import {
   ViewChild,
   Output,
   EventEmitter,
-  SimpleChanges,
-  OnChanges,
 } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import {
@@ -19,8 +17,10 @@ import {
   AnswerOption,
   Question,
   AnswerOptionType,
+  DisableButton,
 } from 'src/app/models';
 import { ManagerR } from 'src/app/utlis/manipulate-r.service';
+import { disableBtnObjFactory } from '../disable-button-helper';
 
 @Component({
   selector: 'app-question-design-card',
@@ -31,15 +31,26 @@ export class QuestionDesignCardComponent implements OnInit, AfterViewInit {
   @ViewChild('questionTitleRef') questionTitleRef: ElementRef<HTMLInputElement>;
   @ViewChildren('optionInput') optionInputs: ElementRef<HTMLInputElement>[];
   @Input() questionData: Question;
-  @Input() disableSendBtn: boolean;
-  @Output() disableSendBtnChange = new EventEmitter<boolean>();
+  @Input() disableSendBtn: DisableButton;
+  @Output() disableSendBtnChange = new EventEmitter<DisableButton>();
   @Output() removeQuestion = new EventEmitter<string>();
-  @Output() send = new EventEmitter<Question>();
+  @Output() sendQuestion = new EventEmitter<Question>();
+  @Output() closeQuestion = new EventEmitter();
   get questionTitleInput() {
     return this.questionTitleRef.nativeElement;
   }
   questionMode = QuestionMode;
   mode = new BehaviorSubject<QuestionMode>(QuestionMode.Single);
+
+  get isSnedBtnDisable() {
+    const excludeId = this.disableSendBtn.excludeId;
+    const disable = this.disableSendBtn.disable;
+    if (!excludeId) {
+      return disable;
+    }
+
+    return excludeId === this.questionData.id ? !disable : disable;
+  }
   get nativeElement() {
     return this.elementRef.nativeElement;
   }
@@ -92,21 +103,17 @@ export class QuestionDesignCardComponent implements OnInit, AfterViewInit {
 
   questionTitleChange() {
     this.questionData.title = this.questionTitleInput.value;
-    this.disableSendBtnChange.emit(true);
+    this.disableSendBtnChange.emit(disableBtnObjFactory());
   }
 
   optionTitleChange(event: Event, index: number) {
     const option = this.optionList.find((v) => v.index === index);
     option.text = (event.target as HTMLInputElement).value;
-    this.disableSendBtnChange.emit(true);
+    this.disableSendBtnChange.emit(disableBtnObjFactory());
   }
 
   sendToGuest() {
-    console.log(
-      `🌻: QuestionDesignCardComponent -> sendToGuest -> this.questionData`,
-      this.questionData
-    );
-    this.send.emit(this.questionData);
+    this.sendQuestion.emit(this.questionData);
     this.showCloseButton = true;
   }
   addNewOption(type = AnswerOptionType.Predefined) {
@@ -143,7 +150,7 @@ export class QuestionDesignCardComponent implements OnInit, AfterViewInit {
     this.setInputChecked(questionMode);
     this.switchModeTo(questionMode);
     this.questionData.mode = questionMode;
-    this.disableSendBtnChange.emit(true);
+    this.disableSendBtnChange.emit(disableBtnObjFactory());
   }
 
   removeQuestionClick() {
@@ -155,7 +162,7 @@ export class QuestionDesignCardComponent implements OnInit, AfterViewInit {
       (v) => v.index !== removeOptionIndex
     );
     this.questionData.answerOptions = this.optionList;
-    this.disableSendBtnChange.emit(true);
+    this.disableSendBtnChange.emit(disableBtnObjFactory());
   }
 
   switchShowOtherOption() {
@@ -172,10 +179,9 @@ export class QuestionDesignCardComponent implements OnInit, AfterViewInit {
     }
   }
 
-  closeQuestion() {
-    this.mr.closeQuestion().subscribe((_) => {
-      this.showCloseButton = false;
-    });
+  closeBtnClick() {
+    this.showCloseButton = false;
+    this.closeQuestion.emit();
   }
 
   private switchModeTo(questionMode: QuestionMode) {
