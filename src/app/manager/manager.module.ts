@@ -6,7 +6,7 @@ import { QuestionsComponent } from './questions/questions.component';
 import { QuestionDesignCardComponent } from './questions/question-design-card/question-design-card.component';
 import { SharedMaterialModule } from '../shared-material/shared-material.module';
 import { LocalStoredService } from './services/local-stored.service';
-import { StoredService } from './services/stroed-service';
+import { DataStoaredService } from '../models';
 
 export const managerRoutes: Routes = [
   {
@@ -39,7 +39,7 @@ export const managerRoutes: Routes = [
   ],
   providers: [
     {
-      provide: StoredService,
+      provide: DataStoaredService,
       useClass: LocalStoredService,
     },
   ],

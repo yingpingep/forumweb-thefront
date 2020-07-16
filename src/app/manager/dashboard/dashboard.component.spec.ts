@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DashboardComponent } from './dashboard.component';
+import { DataStoaredService } from 'src/app/models';
+import { LocalStoredService } from '../services/local-stored.service';
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
@@ -9,6 +11,12 @@ describe('DashboardComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [DashboardComponent],
+      providers: [
+        {
+          provide: DataStoaredService,
+          useClass: LocalStoredService,
+        },
+      ],
     }).compileComponents();
   }));
 

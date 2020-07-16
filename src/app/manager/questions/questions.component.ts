@@ -1,12 +1,11 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { v4 as uuidV4 } from 'uuid';
-import { StoredService } from '../services/stroed-service';
 import { take } from 'rxjs/operators';
 import {
   Question,
   QuestionMode,
-  StoredData,
+  DataStoaredService,
   Status,
   DisableButton,
 } from 'src/app/models';
@@ -26,10 +25,7 @@ export class QuestionsComponent implements OnInit {
   };
   doesQuestionSend = false;
   private storedQuestions = [];
-  constructor(
-    @Inject(StoredService) private ss: StoredData,
-    private mr: ManagerR
-  ) {}
+  constructor(private ss: DataStoaredService, private mr: ManagerR) {}
 
   ngOnInit(): void {
     this.ss

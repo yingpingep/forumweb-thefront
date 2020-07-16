@@ -1,6 +1,6 @@
 import { Injectable, QueryList } from '@angular/core';
 import {
-  StoredData,
+  DataStoaredService,
   SaveResponse,
   RetriveResponse,
   Status,
@@ -9,7 +9,7 @@ import { Observable, of } from 'rxjs';
 import { Question } from 'src/app/models';
 
 @Injectable()
-export class LocalStoredService implements StoredData {
+export class LocalStoredService implements DataStoaredService {
   constructor() {}
   prepareAndSave(data: Question[]): Observable<SaveResponse> {
     localStorage.setItem('questions', JSON.stringify(data));

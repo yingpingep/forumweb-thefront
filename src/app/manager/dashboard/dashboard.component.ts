@@ -1,6 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { StoredData } from '../../models/stored-data';
-import { StoredService } from '../services/stroed-service';
+import { DataStoaredService } from '../../models/stored-data';
 import { ManagerR } from '../../utlis/manipulate-r.service';
 
 @Component({
@@ -10,7 +9,7 @@ import { ManagerR } from '../../utlis/manipulate-r.service';
 })
 export class DashboardComponent implements OnInit {
   constructor(
-    @Inject(StoredService) private lss: StoredData,
+    @Inject(DataStoaredService) private lss: DataStoaredService,
     private mr: ManagerR
   ) {}
 
