@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { QuestionDesignCardComponent } from './question-design-card.component';
 import { Question, QuestionMode, DisableButton } from 'src/app/models';
+import { SharedMaterialModule } from 'src/app/shared-material/shared-material.module';
 
 describe('QuestionDesignCardComponent', () => {
   let component: QuestionDesignCardComponent;
@@ -19,6 +20,7 @@ describe('QuestionDesignCardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [SharedMaterialModule],
       declarations: [QuestionDesignCardComponent],
     }).compileComponents();
   }));
