@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ScreenModeComponent } from './screen-mode.component';
+import { declarations } from './screen-mode.module';
 
 describe('ScreenModeComponent', () => {
   let component: ScreenModeComponent;
@@ -8,7 +9,7 @@ describe('ScreenModeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ScreenModeComponent],
+      declarations,
     }).compileComponents();
   }));
 
