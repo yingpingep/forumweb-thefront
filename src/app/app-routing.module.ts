@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { NicknameComponent } from './nickname/nickname.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   { path: 'nickname', component: NicknameComponent },
   {
     path: 'dashboard',

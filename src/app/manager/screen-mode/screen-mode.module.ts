@@ -13,13 +13,14 @@ export const screenRoutes: Routes = [
   },
 ];
 
+export const declarations = [
+  WordCloudComponent,
+  StatisticsComponent,
+  ChatRoomComponent,
+];
+
 @NgModule({
-  declarations: [
-    ScreenModeComponent,
-    WordCloudComponent,
-    StatisticsComponent,
-    ChatRoomComponent,
-  ],
+  declarations,
   imports: [CommonModule, RouterModule.forChild(screenRoutes)],
 })
 export class ScreenModeModule {}

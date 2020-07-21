@@ -19,7 +19,6 @@ import {
   AnswerOptionType,
   DisableButton,
 } from 'src/app/models';
-import { ManagerR } from 'src/app/utlis/manipulate-r.service';
 import { disableBtnObjFactory } from '../disable-button-helper';
 
 @Component({
@@ -79,11 +78,7 @@ export class QuestionDesignCardComponent implements OnInit, AfterViewInit {
 
   private optionCount: number;
 
-  constructor(
-    private renderer: Renderer2,
-    private elementRef: ElementRef,
-    private mr: ManagerR
-  ) {}
+  constructor(private renderer: Renderer2, private elementRef: ElementRef) {}
 
   ngOnInit(): void {
     this.optionList = this.questionData.answerOptions || [];

@@ -14,7 +14,7 @@ export type RetriveResponse = {
   data: Question[];
 };
 
-export interface StoredData {
-  prepareAndSave(data: Question[]): Observable<SaveResponse>;
-  retrive(): Observable<RetriveResponse>;
+export abstract class DataStoaredService {
+  abstract prepareAndSave(data: Question[]): Observable<SaveResponse>;
+  abstract retrive(): Observable<RetriveResponse>;
 }
