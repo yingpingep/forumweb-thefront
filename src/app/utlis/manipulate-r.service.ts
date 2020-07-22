@@ -1,19 +1,14 @@
 import {
   ManipulateRBase,
-  ManagerFunc,
   Message,
   PageType,
+  MessageType,
 } from '../models/manipulate-r';
 import * as signalR from '@microsoft/signalr';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { take } from 'rxjs/operators';
-import { Question } from '../models';
-
-export enum MessageType {
-  String,
-  Image,
-}
+import { Question, QuestionMode } from '../models';
 
 @Injectable({
   providedIn: 'any',
@@ -80,36 +75,30 @@ export class ManipulateR implements ManipulateRBase {
   }
 }
 
-@Injectable({
-  providedIn: 'any',
-})
-export class ManagerR extends ManipulateR implements ManagerFunc {
-  constructor() {
-    super();
+export class MockManipulateR implements ManipulateRBase {
+  connectionToHub(url: string): void {}
+  closeConnection(): void {}
+  receiveQuestion(): Observable<Question> {
+    return of({
+      id: '1',
+      number: '1',
+      title: '1',
+      mode: QuestionMode.Answer,
+    });
   }
-  sendQuestion(question: Question): Observable<any> {
-    return new Observable((subscriber) => {
-      this.connection
-        .invoke('SendQuestion', question)
-        .then((returnValue) => subscriber.next(returnValue))
-        .catch((error) => subscriber.error(error));
-    }).pipe(take(1));
+  receiveMessage(): Observable<Message> {
+    return of({
+      type: MessageType.String,
+      content: '',
+    });
   }
-  sendChangePage(page: PageType): Observable<any> {
-    return new Observable((subscriber) => {
-      this.connection
-        .invoke('SendChangePage', page)
-        .then((returnValue) => subscriber.next(returnValue))
-        .catch((error) => subscriber.error(error));
-    }).pipe(take(1));
+  sendMessage(message: Message): Observable<any> {
+    return of();
   }
-
-  closeQuestion(): Observable<any> {
-    return new Observable((subscriber) => {
-      this.connection
-        .invoke('CloseQuestion', true)
-        .then((returnValue) => subscriber.next(returnValue))
-        .catch((error) => subscriber.error(error));
-    }).pipe(take(1));
+  receiveChangePage(): Observable<PageType> {
+    return of('Chat');
+  }
+  questionClosed(): Observable<boolean> {
+    return of(true);
   }
 }

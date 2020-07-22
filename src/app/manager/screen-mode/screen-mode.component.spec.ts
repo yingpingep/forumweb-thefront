@@ -2,6 +2,10 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ScreenModeComponent } from './screen-mode.component';
 import { screenModuleDeclarations } from './screen-mode.module';
+import {
+  ManipulateR,
+  MockManipulateR,
+} from 'src/app/utlis/manipulate-r.service';
 
 describe('ScreenModeComponent', () => {
   let component: ScreenModeComponent;
@@ -10,6 +14,12 @@ describe('ScreenModeComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: screenModuleDeclarations,
+      providers: [
+        {
+          provide: ManipulateR,
+          useClass: MockManipulateR,
+        },
+      ],
     }).compileComponents();
   }));
 

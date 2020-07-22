@@ -7,6 +7,7 @@ import { QuestionDesignCardComponent } from './questions/question-design-card/qu
 import { SharedMaterialModule } from '../shared-material/shared-material.module';
 import { LocalStoredService } from './services/local-stored.service';
 import { DataStoaredService } from '../models';
+import { UtlisModule } from '../utlis/utlis.module';
 
 export const managerRoutes: Routes = [
   {
@@ -36,6 +37,7 @@ export const managerRoutes: Routes = [
     CommonModule,
     RouterModule.forChild(managerRoutes),
     SharedMaterialModule,
+    UtlisModule,
   ],
   providers: [
     {

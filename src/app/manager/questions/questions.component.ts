@@ -9,7 +9,7 @@ import {
   Status,
   DisableButton,
 } from 'src/app/models';
-import { ManagerR } from 'src/app/utlis/manipulate-r.service';
+import { ManagerR } from '../../utlis/manager-r.service';
 import { disableBtnObjFactory } from './disable-button-helper';
 import * as R from 'ramda';
 

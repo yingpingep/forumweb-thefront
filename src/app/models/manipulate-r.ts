@@ -7,8 +7,8 @@ export enum MessageType {
 }
 
 export type Message = {
-  Type: MessageType;
-  Content: any;
+  type: MessageType;
+  content: any;
 };
 
 export type PageType = 'Chat' | 'Question' | 'KeyVision';
