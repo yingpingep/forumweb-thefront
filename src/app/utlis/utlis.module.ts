@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ManipulateR, ManagerR } from './manipulate-r.service';
+import { ManipulateR } from './manipulate-r.service';
+import { ManagerR } from './manager-r.service';
 
 @NgModule({
   declarations: [],
   imports: [CommonModule],
-  exports: [ManipulateR, ManagerR],
+  exports: [],
 })
 export class UtlisModule {}

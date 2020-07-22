@@ -5,6 +5,7 @@ import { DataStoaredService } from 'src/app/models';
 import { LocalStoredService } from '../services/local-stored.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { managerRoutes } from '../manager.module';
+import { ManagerR, MockManagerR } from 'src/app/utlis/manager-r.service';
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
@@ -18,6 +19,10 @@ describe('DashboardComponent', () => {
         {
           provide: DataStoaredService,
           useClass: LocalStoredService,
+        },
+        {
+          provide: ManagerR,
+          useClass: MockManagerR,
         },
       ],
     }).compileComponents();
