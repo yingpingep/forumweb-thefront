@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ScreenModeComponent } from './screen-mode.component';
 import { screenModuleDeclarations } from './screen-mode.module';
@@ -11,17 +11,19 @@ describe('ScreenModeComponent', () => {
   let component: ScreenModeComponent;
   let fixture: ComponentFixture<ScreenModeComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: screenModuleDeclarations,
-      providers: [
-        {
-          provide: ManipulateR,
-          useClass: MockManipulateR,
-        },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: screenModuleDeclarations,
+        providers: [
+          {
+            provide: ManipulateR,
+            useClass: MockManipulateR,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ScreenModeComponent);

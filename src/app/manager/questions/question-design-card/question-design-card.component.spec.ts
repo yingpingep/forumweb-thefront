@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { QuestionDesignCardComponent } from './question-design-card.component';
 import { Question, QuestionMode, DisableButton } from 'src/app/models';
@@ -18,12 +18,14 @@ describe('QuestionDesignCardComponent', () => {
     disable: true,
   };
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [SharedMaterialModule],
-      declarations: [QuestionDesignCardComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [SharedMaterialModule],
+        declarations: [QuestionDesignCardComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(QuestionDesignCardComponent);
