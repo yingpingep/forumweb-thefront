@@ -1,5 +1,5 @@
 import { OtherAnswerDirective } from './other-answer.directive';
-import { TestBed, async, ComponentFixture } from '@angular/core/testing';
+import { TestBed, ComponentFixture, waitForAsync } from '@angular/core/testing';
 import { Component, DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
@@ -15,18 +15,20 @@ describe('OtherAnswerDirective', () => {
   let mockHostDeEle: DebugElement;
   let mockHostEle: HTMLElement;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [MockComponent, OtherAnswerDirective],
-    }).compileComponents();
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [MockComponent, OtherAnswerDirective],
+      }).compileComponents();
 
-    fixture = TestBed.createComponent(MockComponent);
-    component = fixture.componentInstance;
-    mockHostDeEle = fixture.debugElement.query(
-      By.css('button[appOtherAnswer]')
-    );
-    mockHostEle = mockHostDeEle.nativeElement;
-  }));
+      fixture = TestBed.createComponent(MockComponent);
+      component = fixture.componentInstance;
+      mockHostDeEle = fixture.debugElement.query(
+        By.css('button[appOtherAnswer]')
+      );
+      mockHostEle = mockHostDeEle.nativeElement;
+    })
+  );
 
   it('should create an instance', () => {
     const directive = new OtherAnswerDirective();

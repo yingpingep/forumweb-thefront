@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { DashboardComponent } from './dashboard.component';
 import { DataStoaredService } from 'src/app/models';
@@ -11,22 +11,24 @@ describe('DashboardComponent', () => {
   let component: DashboardComponent;
   let fixture: ComponentFixture<DashboardComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule.withRoutes(managerRoutes)],
-      declarations: [DashboardComponent],
-      providers: [
-        {
-          provide: DataStoaredService,
-          useClass: LocalStoredService,
-        },
-        {
-          provide: ManagerR,
-          useClass: MockManagerR,
-        },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [RouterTestingModule.withRoutes(managerRoutes)],
+        declarations: [DashboardComponent],
+        providers: [
+          {
+            provide: DataStoaredService,
+            useClass: LocalStoredService,
+          },
+          {
+            provide: ManagerR,
+            useClass: MockManagerR,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(DashboardComponent);

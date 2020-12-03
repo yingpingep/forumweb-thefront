@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { QuestionAnswerCardComponent } from './question-answer-card.component';
 import { Question, QuestionMode } from 'src/app/models';
@@ -14,11 +14,13 @@ describe('QuestionAnswerCardComponent', () => {
     answerOptions: [],
   };
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [QuestionAnswerCardComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [QuestionAnswerCardComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(QuestionAnswerCardComponent);
