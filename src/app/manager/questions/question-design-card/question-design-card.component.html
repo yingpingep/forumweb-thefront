@@ -50,11 +50,13 @@
       <input
         type="checkbox"
         class="custom-control-input"
-        id="showOtherOption"
+        id="showOtherOption + {{ questionData.id }}"
         (change)="switchShowOtherOption()"
         [checked]="questionData.hasOtherOption"
       />
-      <label class="custom-control-label" for="showOtherOption"
+      <label
+        class="custom-control-label"
+        for="showOtherOption + {{ questionData.id }}"
         >顯示「其他」選項</label
       >
     </div>
